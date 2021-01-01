@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
 import { Team } from '../Models/team';
+import { RootState } from './store';
 
 export interface TeamState {
   teams: Team[];
@@ -9,7 +11,11 @@ const initialState = {
   teams: [
     {
       id: 1,
-      monsterLineUp: [[1, 2, 3, 4]],
+      monsterIds: [1, 2, 3, 4],
+    },
+    {
+      id: 2,
+      monsterIds: [5, 6, 7, 8],
     },
   ],
 } as TeamState;
@@ -26,6 +32,10 @@ const teamSlice = createSlice({
     },
   },
 });
+
+export function getTeam(tId: number): Team | undefined {
+  return useSelector((state: RootState) => state.team.teams.find((t) => t.id == tId));
+}
 
 export const { add, remove } = teamSlice.actions;
 export default teamSlice.reducer;

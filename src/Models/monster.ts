@@ -1,9 +1,10 @@
-import { Battle } from './battle';
+import { PayloadAction } from '@reduxjs/toolkit';
 
 export interface Monster {
   id: number;
   name: string;
   battleValues: BattleValues;
+  teamId: number;
 }
 
 export interface BattleValues {
@@ -13,35 +14,44 @@ export interface BattleValues {
   defense: number;
 }
 
-export class BattleValuesMaker implements BattleValues {
-  currentHP: number;
-  maxHP: number;
-  attack: number;
-  defense: number;
-
-  constructor({ currentHP = 100, maxHP = 100, attack = 10, defense = 10 }: Partial<BattleValues>) {
-    this.currentHP = currentHP;
-    this.maxHP = maxHP;
-    this.attack = attack;
-    this.defense = defense;
-  }
+export function createBattleValues({
+  currentHP = 100,
+  maxHP = 100,
+  attack = 10,
+  defense = 10,
+}: Partial<BattleValues>): BattleValues {
+  return {
+    currentHP,
+    maxHP,
+    attack,
+    defense,
+  };
 }
 
-export class MonsterMaker implements Monster {
+export function createMonster({
+  id,
+  name,
+  battleValues = createBattleValues({}),
+  teamId,
+}: {
   id: number;
   name: string;
-  battleValues: BattleValues;
-  public constructor({
+  teamId: number;
+  battleValues?: BattleValues;
+}): Monster {
+  return {
     id,
     name,
-    battleValues = new BattleValuesMaker({}),
-  }: {
-    id: number;
-    name: string;
-    battleValues?: BattleValues;
-  }) {
-    this.id = id;
-    this.name = name;
-    this.battleValues = battleValues;
-  }
+    battleValues,
+    teamId,
+  };
 }
+
+export type TakeDamage = {
+  monId: number;
+  HP: number;
+};
+
+export type TakeDamageEvent = PayloadAction<TakeDamage>;
+
+export type MonsterEvent = TakeDamageEvent;
