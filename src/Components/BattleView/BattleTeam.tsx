@@ -1,5 +1,5 @@
 import React from 'react';
-import { RootState } from '../Store/store';
+import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import MonsterView from './MonsterView';

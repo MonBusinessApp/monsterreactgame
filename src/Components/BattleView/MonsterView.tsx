@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import store, { RootState } from '../Store/store';
+import store, { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
 import { Box, LinearProgress, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper } from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import { Monster } from '../Models/monster';
+import { Monster } from '../../Models/monster';
 import { green, grey, red, teal } from '@material-ui/core/colors';
-import { BattlePos, isBattlePosEqual } from '../Models/battle';
-import { setTargetPos } from '../Store/battleStore';
+import { BattlePos, isBattlePosEqual } from '../../Models/battle';
+import { setTargetPos } from '../../Store/battleStore';
 
 function MonsterView({
   monId,

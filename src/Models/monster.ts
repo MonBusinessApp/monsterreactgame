@@ -15,8 +15,8 @@ export interface BattleValues {
 }
 
 export function createBattleValues({
-  currentHP = 100,
-  maxHP = 100,
+  currentHP = 10,
+  maxHP = 10,
   attack = 10,
   defense = 10,
 }: Partial<BattleValues>): BattleValues {

@@ -1,20 +1,21 @@
-import { Action, AsyncThunk, AsyncThunkAction, createAsyncThunk, ThunkAction } from '@reduxjs/toolkit';
-import { Attack, Battle, BattleEvents, BattlePos } from '../Models/battle';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Battle, BattleEvents, BattlePos } from '../Models/battle';
 import { Monster } from '../Models/monster';
 import { Team } from '../Models/team';
 import { attackCreator, battleEnded, nextRound, nextTurn, startBattle } from '../Store/battleStore';
-import rootStore, { AppDispatch } from '../Store/store';
 import store, { RootState } from '../Store/store';
 import { isAlive } from './monster';
 
 export function handleNextRound(b: Battle, state: RootState): BattleEvents {
   const teams = state.team.teams.filter((t) => b.lineUps.find((tId) => tId.teamId == t.id));
   const winner = isGameOver(teams, getMonsInBattle(b, state));
+  console.log(winner);
   if (winner != false) {
     return battleEnded({ winningTeamId: 1 });
   }
   //filter all dead mons for safety
   let newTurnQueue: number[] = b.turnQueue
+    .slice(1)
     .map((mId) => state.monster.monsters.find((m) => m.id == mId))
     .filter((m): m is Monster => !!m)
     .filter((m) => isAlive(m))
@@ -43,21 +44,23 @@ export function possibleTargets(_: Battle): BattlePos[] {
 }
 
 export function isGameOver(teams: Team[], mons: Monster[]): number | false {
-  const monsterTeams = teams.map((t) => t.monsterIds.map((mId) => mons.find((m) => m.id == mId)));
+  const monsterTeams = teams.map((t) => {
+    return { teamId: t.id, monsters: t.monsterIds.map((mId) => mons.find((m) => m.id == mId)) };
+  });
 
   const aliveTeams = [];
   for (let i = 0; i < monsterTeams.length; i++) {
     //check all mons in team
     let isTeamAlive = false;
     const monsterTeam = monsterTeams[i];
-    for (let j = 0; j < monsterTeam.length; j++) {
-      if (isAlive(monsterTeam[j])) {
+    for (let j = 0; j < monsterTeam.monsters.length; j++) {
+      if (isAlive(monsterTeam.monsters[j])) {
         isTeamAlive = true;
         break;
       }
     }
     if (isTeamAlive == true) {
-      aliveTeams.push(i);
+      aliveTeams.push(monsterTeam.teamId);
     }
   }
 
@@ -69,14 +72,14 @@ export function isGameOver(teams: Team[], mons: Monster[]): number | false {
 }
 
 export function sendStartBattleCmd(battleId: number): void {
-  const rootState = rootStore.getState();
+  const rootState = store.getState();
   //todo useful version
   const battle = rootState.battle.battles.find((b) => b.id == battleId);
   if (battle == undefined) {
     throw 'battle is undefined';
   }
   console.log('do stuff');
-  rootStore.dispatch(startBattle({ b: battle }));
+  store.dispatch(startBattle({ b: battle }));
 
   if (battle == undefined) {
     throw 'battle does not exist';

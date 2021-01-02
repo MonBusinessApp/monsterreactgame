@@ -35,9 +35,14 @@ export const battleMiddleware: Middleware<
       throw 'target is undefined';
     }
 
+    //after effects are executed
     store.dispatch(takeDamage({ HP: 10, monId: target }));
-
-    const nextEvent = handleNextRound(battle, state);
+    const newState = store.getState();
+    const newBattle = state.battle.battles.find((b) => b.id == action.payload.battleId);
+    if (newBattle == undefined) {
+      throw 'battle is undefined';
+    }
+    const nextEvent = handleNextRound(newBattle, newState);
     store.dispatch(nextEvent);
   }
 };

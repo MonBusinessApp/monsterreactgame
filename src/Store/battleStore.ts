@@ -74,7 +74,7 @@ const battleSlice = createSlice({
       console.log(`team ${action.payload.winningTeamId} won`);
     },
     attack(state, action: AttackEvent) {
-      console.log('attack happened');
+      const x = 0;
     },
     nextRound(state, action: NextRoundEvent) {
       const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
@@ -93,6 +93,7 @@ const battleSlice = createSlice({
       if (battle == undefined) {
         throw 'battle is not defined!';
       }
+      console.log(action.payload.turnQueue);
       battle.turnQueue = action.payload.turnQueue;
       state.activeBattleUI = createBattleUiState(battle);
     },
@@ -113,7 +114,7 @@ const battleSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(attackCmdCreator.fulfilled, (state, { payload }) => {
-      console.log('stuf');
+      const x = 0;
     });
   },
 });
