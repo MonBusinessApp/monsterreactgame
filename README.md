@@ -20,3 +20,19 @@
 - check if there is a winner
 - update turnqueue
 - reset ui stuff
+
+### todos
+
+[]improve ui(more info for battles)
+[]notifications
+[]use router
+[]monster overview
+[]real damage calculation
+
+##future todos
+[]add skills
+[]add items
+[]login
+
+#done
+[x]improve ui (hide buttons when not needed)

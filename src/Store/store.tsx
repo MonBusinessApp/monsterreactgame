@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import monsterReducer, { MonsterState } from './monsterStore';
 import teamReducer, { TeamState } from './teamStore';
 import battleReducer, { BattleState } from './battleStore';

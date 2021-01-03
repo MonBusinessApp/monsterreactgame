@@ -1,5 +1,6 @@
 import { Middleware } from 'redux';
-import { attackCreator, startBattle } from '../Store/battleStore';
+import { attackCreator, startBattleCreator } from '../Store/battleActions';
+
 import { takeDamage } from '../Store/monsterStore';
 import { RootState } from '../Store/store';
 import { handleNextRound } from './battle';
@@ -9,7 +10,7 @@ export const battleMiddleware: Middleware<
   RootState
 > = (store) => (next) => (action) => {
   next(action);
-  if (startBattle.match(action)) {
+  if (startBattleCreator.match(action)) {
     const state = store.getState();
     const battle = action.payload.b;
     if (battle == undefined) {

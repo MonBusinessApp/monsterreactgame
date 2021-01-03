@@ -1,25 +1,22 @@
+import { Container } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Container, List, ListItem } from '@material-ui/core';
-import { RootState } from '../Store/store';
 
-function BattleListView(): React.ReactElement {
+import { RootState } from '../Store/store';
+import ActiveBattleView from './BattleView/ActiveBattleView';
+import BattleListView from './BattleView/BattleListView';
+
+function BattleView(): React.ReactElement {
   const battleState = useSelector((state: RootState) => state.battle);
 
-  const battles = battleState.battles;
-
   if (battleState.activeBattleUI == null) {
-    return BattleListView();
+    return <BattleListView />;
   }
   return (
     <Container>
-      <List component="nav" aria-label="secondary mailbox folders">
-        {battles.map((b) => (
-          <ListItem key={b.id}></ListItem>
-        ))}
-      </List>
+      <ActiveBattleView></ActiveBattleView>
     </Container>
   );
 }
 
-export default BattleListView;
+export default BattleView;

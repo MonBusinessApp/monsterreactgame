@@ -1,15 +1,13 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Battle, BattleEvents, BattlePos } from '../Models/battle';
 import {
-  AttackEvent,
-  Battle,
-  BattleEndedEvent,
-  BattlePos,
-  BattleStartedEvent,
-  NextRoundEvent,
-  NextTurnEvent,
-} from '../Models/battle';
-import { attackCmdCreator, sendAttackCmd } from '../Services/battle';
-import { AppDispatch, RootState } from './store';
+  attackCmdCreator,
+  attackCreator,
+  battleEndedCreator,
+  nextRoundCreator,
+  nextTurnCreator,
+  startBattleCreator,
+} from './battleActions';
 
 export interface BattleState {
   battles: Battle[];
@@ -69,14 +67,31 @@ const battleSlice = createSlice({
     setActiveBattle(state, action: PayloadAction<number>) {
       state.activeBattleUI = createBattleUiState(state.battles.find((b) => b.id == action.payload));
     },
-    battleEnded(state, action: BattleEndedEvent) {
-      state.activeBattleUI = null;
-      console.log(`team ${action.payload.winningTeamId} won`);
+    setTargetPos(state, action: PayloadAction<BattlePos>) {
+      if (state.activeBattleUI == null) {
+        throw 'battleuistate is null';
+      }
+      state.activeBattleUI.targetPos = action.payload;
     },
-    attack(state, action: AttackEvent) {
-      const x = 0;
-    },
-    nextRound(state, action: NextRoundEvent) {
+  },
+  extraReducers: (builder) => {
+    builder.addCase(startBattleCreator, (state, action) => {
+      state.activeBattleUI = createBattleUiState(action.payload.b);
+      const index = state.battles.findIndex((b) => b.id == action.payload.b.id);
+      if (index == -1) {
+        state.battles.push(action.payload.b);
+      }
+      state.battles[index] = action.payload.b;
+    });
+    builder.addCase(nextTurnCreator, (state, action) => {
+      const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
+      if (battle == undefined) {
+        throw 'battle is not defined!';
+      }
+      battle.turnQueue = action.payload.turnQueue;
+      state.activeBattleUI = createBattleUiState(battle);
+    });
+    builder.addCase(nextRoundCreator, (state, action) => {
       const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
       if (battle == undefined) {
         throw 'battle is not defined!';
@@ -87,47 +102,13 @@ const battleSlice = createSlice({
       //viewlogic
 
       state.activeBattleUI = createBattleUiState(battle);
-    },
-    nextTurn(state, action: NextTurnEvent) {
-      const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
-      if (battle == undefined) {
-        throw 'battle is not defined!';
-      }
-      console.log(action.payload.turnQueue);
-      battle.turnQueue = action.payload.turnQueue;
-      state.activeBattleUI = createBattleUiState(battle);
-    },
-    startBattle(state, action: BattleStartedEvent) {
-      state.activeBattleUI = createBattleUiState(action.payload.b);
-      const index = state.battles.findIndex((b) => b.id == action.payload.b.id);
-      if (index == -1) {
-        state.battles.push(action.payload.b);
-      }
-      state.battles[index] = action.payload.b;
-    },
-    setTargetPos(state, action: PayloadAction<BattlePos>) {
-      if (state.activeBattleUI == null) {
-        throw 'battleuistate is null';
-      }
-      state.activeBattleUI.targetPos = action.payload;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(attackCmdCreator.fulfilled, (state, { payload }) => {
-      const x = 0;
+    });
+    builder.addCase(battleEndedCreator, (state, action) => {
+      state.activeBattleUI = null;
+      console.log(`team ${action.payload.winningTeamId} won`);
     });
   },
 });
 
-export const {
-  add,
-  remove,
-  setActiveBattle,
-  battleEnded,
-  attack: attackCreator,
-  nextRound,
-  nextTurn,
-  startBattle,
-  setTargetPos,
-} = battleSlice.actions;
+export const { add, remove, setActiveBattle, setTargetPos } = battleSlice.actions;
 export default battleSlice.reducer;

@@ -38,7 +38,7 @@ export type BattleEndedEvent = PayloadAction<BattleEnded>;
 export type NextTurnEvent = PayloadAction<NextTurn>;
 export type NextRoundEvent = PayloadAction<NextRound>;
 
-export type BattleEvents = AttackEvent | NextTurnEvent | NextRoundEvent | BattleEndedEvent;
+export type BattleEvents = AttackEvent | NextTurnEvent | NextRoundEvent | BattleStartedEvent | BattleEndedEvent;
 
 export interface BattlePos {
   teamId: number;
