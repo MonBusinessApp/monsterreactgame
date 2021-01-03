@@ -1,13 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Battle, BattleEvents, BattlePos } from '../Models/battle';
-import {
-  attackCmdCreator,
-  attackCreator,
-  battleEndedCreator,
-  nextRoundCreator,
-  nextTurnCreator,
-  startBattleCreator,
-} from './battleActions';
+import { Battle, BattlePos } from '../Models/battle';
+import { battleEndedCreator, nextRoundCreator, nextTurnCreator, startBattleCreator } from './battleActions';
 
 export interface BattleState {
   battles: Battle[];

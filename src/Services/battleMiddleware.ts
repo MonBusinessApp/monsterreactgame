@@ -1,9 +1,19 @@
 import { Middleware } from 'redux';
+import { Battle, BattlePos } from '../Models/battle';
+import { Monster } from '../Models/monster';
 import { attackCreator, startBattleCreator } from '../Store/battleActions';
 
 import { takeDamage } from '../Store/monsterStore';
 import { RootState } from '../Store/store';
-import { handleNextRound } from './battle';
+import { calculateDamage, handleNextRound } from './battle';
+
+function getMonByPos(monPos: BattlePos, battle: Battle, state: RootState): Monster | undefined {
+  //do attack stuff
+  const monTeam = battle.lineUps.find((l) => l.teamId == monPos.teamId);
+
+  const monId = monTeam?.lineUp[monPos.pos[0]][monPos.pos[1]];
+  return state.monster.monsters.find((m) => m.id == monId);
+}
 
 export const battleMiddleware: Middleware<
   unknown, // legacy type parameter added to satisfy interface signature
@@ -29,15 +39,18 @@ export const battleMiddleware: Middleware<
       throw 'battle is undefined';
     }
     //do attack stuff
-    const targetTeam = battle.lineUps.find((l) => l.teamId == action.payload.target.teamId);
-    const targetPos = action.payload.target.pos;
-    const target = targetTeam?.lineUp[targetPos[0]][targetPos[1]];
+    const target = getMonByPos(action.payload.target, battle, state);
     if (target == undefined) {
       throw 'target is undefined';
     }
 
+    const source = getMonByPos(action.payload.source, battle, state);
+
+    if (source == undefined) {
+      throw 'source is undefined';
+    }
     //after effects are executed
-    store.dispatch(takeDamage({ HP: 10, monId: target }));
+    store.dispatch(takeDamage({ HP: calculateDamage(source, target), monId: target.id }));
     const newState = store.getState();
     const newBattle = state.battle.battles.find((b) => b.id == action.payload.battleId);
     if (newBattle == undefined) {

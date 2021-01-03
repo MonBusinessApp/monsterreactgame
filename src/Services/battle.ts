@@ -49,6 +49,17 @@ export function possibleTargets(_: Battle): BattlePos[] {
   return [];
 }
 
+export function calculateDamage(sourceMon: Monster, targetMon: Monster): number {
+  const result =
+    (sourceMon.battleValues.attack * sourceMon.battleValues.attack) /
+    (sourceMon.battleValues.attack + targetMon.battleValues.defense);
+
+  if (targetMon.battleValues.currentHP < result) {
+    return targetMon.battleValues.currentHP;
+  }
+  return result;
+}
+
 export function isGameOver(teams: Team[], mons: Monster[]): number | false {
   const monsterTeams = teams.map((t) => {
     return { teamId: t.id, monsters: t.monsterIds.map((mId) => mons.find((m) => m.id == mId)) };

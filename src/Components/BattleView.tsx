@@ -10,8 +10,13 @@ function BattleView(): React.ReactElement {
   const battleState = useSelector((state: RootState) => state.battle);
 
   if (battleState.activeBattleUI == null) {
-    return <BattleListView />;
+    return (
+      <Container>
+        <BattleListView />
+      </Container>
+    );
   }
+
   return (
     <Container>
       <ActiveBattleView></ActiveBattleView>

@@ -23,11 +23,10 @@
 
 ### todos
 
-[]improve ui(more info for battles)
 []notifications
 []use router
 []monster overview
-[]real damage calculation
+[]improve ui(more info for battles, better feedback when hit)
 
 ##future todos
 []add skills
@@ -36,3 +35,4 @@
 
 #done
 [x]improve ui (hide buttons when not needed)
+[x]real damage calculation

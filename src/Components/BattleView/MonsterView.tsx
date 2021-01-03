@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import store, { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
-import { Box, LinearProgress, List, ListItem, ListItemIcon, ListItemText, makeStyles, Paper } from '@material-ui/core';
+import {
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  makeStyles,
+  Paper,
+  SvgIcon,
+} from '@material-ui/core';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Monster } from '../../Models/monster';
 import { green, grey, red, teal } from '@material-ui/core/colors';
 import { BattlePos, isBattlePosEqual } from '../../Models/battle';
 import { setTargetPos } from '../../Store/battleStore';
+import { mdiSkullCrossbones } from '@mdi/js';
+import { ReactComponent } from '*.svg';
 
 function MonsterView({
   monId,
@@ -51,6 +62,12 @@ function MonsterView({
   if (activeBattleUI.nextMonsterId == monId) {
     backgroundColor = green[saturation];
   }
+  //todo make a hook out of them
+  let isAlive = true;
+  if (monsterState.battleValues.currentHP <= 0) {
+    isAlive = false;
+    backgroundColor = grey[400];
+  }
 
   function getStyles(): { variant: 'outlined' | 'elevation'; classNames: string[] } {
     let variant: 'outlined' | 'elevation';
@@ -81,32 +98,53 @@ function MonsterView({
 
   const styles = getStyles();
 
+  function renderHealth(m: Monster, isAlive: boolean) {
+    let icon: React.ReactElement;
+    if (isAlive == false) {
+      icon = (
+        <SvgIcon>
+          <path d={mdiSkullCrossbones}></path>
+        </SvgIcon>
+      );
+    } else {
+      icon = <FavoriteIcon />;
+    }
+    return (
+      <ListItem aria-label="healthpoints">
+        <ListItemIcon>{icon}</ListItemIcon>
+        <ListItemText>
+          <LinearProgress
+            className={classes.progressRoot}
+            variant="determinate"
+            color="secondary"
+            value={(m.battleValues.currentHP / m.battleValues.maxHP) * 100}
+          />
+        </ListItemText>
+      </ListItem>
+    );
+  }
+
+  let viewProps = {};
+  if (isAlive) {
+    viewProps = {
+      onClick: handleClick,
+      onMouseOver: () => handleMouseOver(true),
+      onMouseLeave: () => handleMouseOver(false),
+    };
+  }
+
   const monsterView = (
     <Paper
       variant={styles.variant}
       className={styles.classNames.reduce((allClasses, currClass) => `${allClasses} ${currClass}`)}
-      onClick={handleClick}
-      onMouseOver={() => handleMouseOver(true)}
-      onMouseLeave={() => handleMouseOver(false)}
+      {...viewProps}
     >
       <List dense={true}>
         <ListItem>
           <ListItemIcon>Name</ListItemIcon>
           <ListItemText>{monsterState.name}</ListItemText>
         </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <FavoriteIcon />
-          </ListItemIcon>
-          <ListItemText>
-            <LinearProgress
-              className={classes.progressRoot}
-              variant="determinate"
-              color="secondary"
-              value={(monsterState.battleValues.currentHP / monsterState.battleValues.maxHP) * 100}
-            />
-          </ListItemText>
-        </ListItem>
+        {renderHealth(monsterState, isAlive)}
       </List>
     </Paper>
   );
