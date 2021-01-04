@@ -4,17 +4,20 @@ import teamReducer, { TeamState } from './teamStore';
 import battleReducer, { BattleState } from './battleStore';
 
 import { battleMiddleware } from '../Services/battleMiddleware';
+import notificationReducer, { NotificationState } from './notificationStore';
 
 export interface RootState {
   monster: MonsterState;
   team: TeamState;
   battle: BattleState;
+  notification: NotificationState;
 }
 const store = configureStore({
   reducer: {
     monster: monsterReducer,
     team: teamReducer,
     battle: battleReducer,
+    notification: notificationReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (middleware) => [...middleware(), battleMiddleware],

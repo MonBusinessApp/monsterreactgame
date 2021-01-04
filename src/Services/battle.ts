@@ -1,5 +1,5 @@
 import { Battle, BattleEvents, BattlePos } from '../Models/battle';
-import { createAsyncThunk, AsyncThunkAction } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Monster } from '../Models/monster';
 import { Team } from '../Models/team';
 import {
