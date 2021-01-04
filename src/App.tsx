@@ -5,17 +5,26 @@ import BattleView from './Components/BattleView';
 import AppBar from './Components/AppBar';
 import NotificationBar from './Components/NotificationBar';
 import store from './Store/store';
-import { createAsyncThunk, AsyncThunkAction } from '@reduxjs/toolkit';
-import { addNotificationCreator } from './Store/notificationStore';
+
+import { createAddNotification } from './Store/notificationStore';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 function App(): React.ReactElement {
   function handleClick() {
-    store.dispatch(addNotificationCreator('hallo bob'));
+    store.dispatch(createAddNotification('hallo bob'));
   }
   return (
     <div className="App">
       <NotificationBar />
-      <AppBar></AppBar>
-      <BattleView />
+
+      <Router>
+        <AppBar></AppBar>
+        <Switch>
+          <Route path="/battle">
+            <BattleView />
+          </Route>
+        </Switch>
+      </Router>
       <Button onClick={handleClick}>Click</Button>
     </div>
   );

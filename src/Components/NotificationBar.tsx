@@ -13,7 +13,7 @@ function NotificationBar(): React.ReactElement {
   const [hideTimeout, setHideTimeout] = useState(null as NodeJS.Timeout | null);
 
   const isOpen = notificationState.messages.length >= 1;
-  const handleClose = (id: number) => {
+  const handleClose = (id: string) => {
     if (hideTimeout != null) {
       clearTimeout(hideTimeout);
       setHideTimeout(null);

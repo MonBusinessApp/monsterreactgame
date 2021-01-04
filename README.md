@@ -23,10 +23,11 @@
 
 ### todos
 
-[]notifications
-[]use router
 []monster overview
 []improve ui(more info for battles, better feedback when hit)
+[-]notifications
+[]split active battles and drafts
+[]rewards
 
 ##future todos
 []add skills
@@ -36,3 +37,4 @@
 #done
 [x]improve ui (hide buttons when not needed)
 [x]real damage calculation
+[x]use router
