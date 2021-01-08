@@ -17,7 +17,7 @@ import { green, grey, red, teal } from '@material-ui/core/colors';
 import { BattlePos, isBattlePosEqual } from '../../Models/battle';
 import { setTargetPos } from '../../Store/battleStore';
 import { mdiSkullCrossbones } from '@mdi/js';
-import { ReactComponent } from '*.svg';
+import { monsterSelectors } from '../../Store/monsterStore';
 
 function MonsterView({
   monId,
@@ -29,7 +29,7 @@ function MonsterView({
   possibleTarget?: boolean;
 }): React.ReactElement {
   const monsterState: Monster | undefined = useSelector((state: RootState) =>
-    state.monster.monsters.find((t) => t.id === monId),
+    monsterSelectors.selectById(state, monId),
   );
 
   const activeBattleUI = useSelector((state: RootState) => state.battle.activeBattleUI);

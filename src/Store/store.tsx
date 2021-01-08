@@ -1,13 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-import monsterReducer, { MonsterState } from './monsterStore';
+import { configureStore, EntityState } from '@reduxjs/toolkit';
+import monsterReducer from './monsterStore';
 import teamReducer, { TeamState } from './teamStore';
 import battleReducer, { BattleState } from './battleStore';
 
 import { battleMiddleware } from '../Services/battleMiddleware';
 import notificationReducer, { NotificationState } from './notificationStore';
+import { Monster } from '../Models/monster';
 
 export interface RootState {
-  monster: MonsterState;
+  monster: EntityState<Monster>;
   team: TeamState;
   battle: BattleState;
   notification: NotificationState;

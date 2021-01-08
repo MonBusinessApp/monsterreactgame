@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Attack, Battle, BattleEnded, BattlePos, NextRound, NextTurn } from '../Models/battle';
+import { monsterSelectors } from './monsterStore';
 import { RootState } from './store';
 
 type SendAttackCmdError = {
@@ -35,7 +36,6 @@ export const attackCmdCreator = createAsyncThunk<
   const target = activeBattleUI.targetPos;
 
   if (target == undefined) {
-    //TODO grey out the button if no target is set!
     return thunkApi.rejectWithValue({ error: 'No target was defined' });
   }
 
@@ -52,8 +52,8 @@ function getPosOfMonster(monId: number, state: RootState): BattlePos {
   }
   const battleId = activeBattle.activeBattle;
   const battle = state.battle.battles.find((b) => b.id == battleId);
-
-  const monster = state.monster.monsters.find((m) => m.id == monId);
+  const monster = monsterSelectors.selectById(state, monId);
+  console.log(monster);
 
   const teamLineUp = battle?.lineUps.find((l) => l.teamId == monster?.teamId);
   if (teamLineUp == undefined) {

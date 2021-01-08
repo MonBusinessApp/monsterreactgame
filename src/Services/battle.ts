@@ -12,6 +12,7 @@ import {
 
 import store, { RootState } from '../Store/store';
 import { isAlive } from './monster';
+import { monsterSelectors } from '../Store/monsterStore';
 
 export function handleNextRound(b: Battle, state: RootState): BattleEvents {
   const teams = state.team.teams.filter((t) => b.lineUps.find((tId) => tId.teamId == t.id));
@@ -22,7 +23,7 @@ export function handleNextRound(b: Battle, state: RootState): BattleEvents {
   //filter all dead mons for safety
   let newTurnQueue: number[] = b.turnQueue
     .slice(1)
-    .map((mId) => state.monster.monsters.find((m) => m.id == mId))
+    .map((mId) => monsterSelectors.selectById(state, mId))
     .filter((m): m is Monster => !!m)
     .filter((m) => isAlive(m))
     .map((m) => m.id);
@@ -38,7 +39,7 @@ export function handleNextRound(b: Battle, state: RootState): BattleEvents {
 
 function getMonsInBattle(b: Battle, state: RootState): Monster[] {
   const monIds = b.lineUps.map((l) => l.lineUp.flat()).flat();
-  return state.monster.monsters.filter((m) => monIds.find((mId) => mId == m.id));
+  return monsterSelectors.selectAll(state).filter((m) => monIds.find((mId) => mId == m.id));
 }
 
 export function fillturnQueue(mons: Monster[]): number[] {

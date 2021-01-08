@@ -3,7 +3,7 @@ import { Battle, BattlePos } from '../Models/battle';
 import { Monster } from '../Models/monster';
 import { attackCreator, startBattleCreator } from '../Store/battleActions';
 
-import { takeDamage } from '../Store/monsterStore';
+import { monsterSelectors, takeDamage } from '../Store/monsterStore';
 import { RootState } from '../Store/store';
 import { calculateDamage, handleNextRound } from './battle';
 
@@ -12,7 +12,10 @@ function getMonByPos(monPos: BattlePos, battle: Battle, state: RootState): Monst
   const monTeam = battle.lineUps.find((l) => l.teamId == monPos.teamId);
 
   const monId = monTeam?.lineUp[monPos.pos[0]][monPos.pos[1]];
-  return state.monster.monsters.find((m) => m.id == monId);
+  if (monId == undefined) {
+    return undefined;
+  }
+  return monsterSelectors.selectById(state, monId);
 }
 
 export const battleMiddleware: Middleware<
@@ -51,6 +54,7 @@ export const battleMiddleware: Middleware<
     }
     //after effects are executed
     store.dispatch(takeDamage({ HP: calculateDamage(source, target), monId: target.id }));
+    console.log('dispatched stuff');
     const newState = store.getState();
     const newBattle = state.battle.battles.find((b) => b.id == action.payload.battleId);
     if (newBattle == undefined) {
