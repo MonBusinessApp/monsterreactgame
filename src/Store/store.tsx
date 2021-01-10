@@ -5,6 +5,7 @@ import battleReducer, { BattleState } from './battleStore';
 
 import { battleMiddleware } from '../Services/battleMiddleware';
 import notificationReducer, { NotificationState } from './notificationStore';
+import authReducer, { AuthState } from './authStore';
 import { Monster } from '../Models/monster';
 
 export interface RootState {
@@ -12,6 +13,7 @@ export interface RootState {
   team: TeamState;
   battle: BattleState;
   notification: NotificationState;
+  auth: AuthState;
 }
 const store = configureStore({
   reducer: {
@@ -19,6 +21,7 @@ const store = configureStore({
     team: teamReducer,
     battle: battleReducer,
     notification: notificationReducer,
+    auth: authReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (middleware) => [...middleware(), battleMiddleware],

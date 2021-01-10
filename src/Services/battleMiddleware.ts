@@ -1,10 +1,10 @@
-import { Middleware } from 'redux';
-import { Battle, BattlePos } from '../Models/battle';
-import { Monster } from '../Models/monster';
+import type { Middleware } from 'redux';
+import type { Battle, BattlePos } from '../Models/battle';
+import type { Monster } from '../Models/monster';
 import { attackCreator, startBattleCreator } from '../Store/battleActions';
 
 import { monsterSelectors, takeDamage } from '../Store/monsterStore';
-import { RootState } from '../Store/store';
+import type { RootState } from '../Store/store';
 import { calculateDamage, handleNextRound } from './battle';
 
 function getMonByPos(monPos: BattlePos, battle: Battle, state: RootState): Monster | undefined {

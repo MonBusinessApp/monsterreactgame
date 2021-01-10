@@ -6,14 +6,14 @@ import { RootState } from './store';
 const monsterAdapter = createEntityAdapter<Monster>();
 
 const initialState = monsterAdapter.addMany(monsterAdapter.getInitialState(), [
-  createMonster({ id: 1, name: 'Schiggo', teamId: 1 }),
-  createMonster({ id: 2, name: 'Bisasa', teamId: 1 }),
-  createMonster({ id: 3, name: 'Gluwurak', teamId: 1 }),
-  createMonster({ id: 4, name: 'Bisawu', battleValues: createBattleValues({ currentHP: 10 }), teamId: 1 }),
-  createMonster({ id: 5, name: 'Schiggo2', teamId: 2 }),
-  createMonster({ id: 6, name: 'Bisasa2', teamId: 2 }),
-  createMonster({ id: 7, name: 'Gluwurak2', teamId: 2 }),
-  createMonster({ id: 8, name: 'Bisawu2', battleValues: createBattleValues({ currentHP: 10 }), teamId: 2 }),
+  createMonster({ id: 1, name: 'Schiggo', teamId: 1, userId: 1 }),
+  createMonster({ id: 2, name: 'Bisasa', teamId: 1, userId: 1 }),
+  createMonster({ id: 3, name: 'Gluwurak', teamId: 1, userId: 1 }),
+  createMonster({ id: 4, name: 'Bisawu', battleValues: createBattleValues({ currentHP: 10 }), teamId: 1, userId: 1 }),
+  createMonster({ id: 5, name: 'Schiggo2', teamId: 2, userId: 2 }),
+  createMonster({ id: 6, name: 'Bisasa2', teamId: 2, userId: 2 }),
+  createMonster({ id: 7, name: 'Gluwurak2', teamId: 2, userId: 2 }),
+  createMonster({ id: 8, name: 'Bisawu2', battleValues: createBattleValues({ currentHP: 10 }), teamId: 2, userId: 2 }),
 ]);
 
 const localMonsterSelectors = monsterAdapter.getSelectors();

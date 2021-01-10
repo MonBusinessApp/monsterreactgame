@@ -3,6 +3,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 export interface Monster {
   id: number;
   name: string;
+  userId: number;
   battleValues: BattleValues;
   teamId: number;
 }
@@ -33,10 +34,12 @@ export function createMonster({
   name,
   battleValues = createBattleValues({}),
   teamId,
+  userId,
 }: {
   id: number;
   name: string;
   teamId: number;
+  userId: number;
   battleValues?: BattleValues;
 }): Monster {
   return {
@@ -44,6 +47,7 @@ export function createMonster({
     name,
     battleValues,
     teamId,
+    userId,
   };
 }
 

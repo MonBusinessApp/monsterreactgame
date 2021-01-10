@@ -1,5 +1,5 @@
 export interface Team {
   id: number;
-  playerId: number;
+  userId: number;
   monsterIds: number[];
 }

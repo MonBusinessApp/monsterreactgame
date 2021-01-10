@@ -1,7 +1,7 @@
-import { Battle, BattleEvents, BattlePos } from '../Models/battle';
+import type { Battle, BattleEvents, BattlePos } from '../Models/battle';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Monster } from '../Models/monster';
-import { Team } from '../Models/team';
+import type { Monster } from '../Models/monster';
+import type { Team } from '../Models/team';
 import {
   attackCmdCreator,
   battleEndedCreator,
@@ -17,7 +17,7 @@ import { monsterSelectors } from '../Store/monsterStore';
 export function handleNextRound(b: Battle, state: RootState): BattleEvents {
   const teams = state.team.teams.filter((t) => b.lineUps.find((tId) => tId.teamId == t.id));
   const winner = isGameOver(teams, getMonsInBattle(b, state));
-  if (winner != false) {
+  if (winner != false || b.type == 'EndedBattle' || b.type == 'NewBattle') {
     return battleEndedCreator({ winningTeamId: 1 });
   }
   //filter all dead mons for safety

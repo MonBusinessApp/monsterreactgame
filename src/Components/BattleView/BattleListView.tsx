@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Accordion, AccordionDetails, AccordionSummary, Fab, makeStyles } from '@material-ui/core';
 import { sendStartBattleCmd } from '../../Services/battle';
 
-function BattleListView(): React.ReactElement {
+function QuestListView(): React.ReactElement {
   const battleState = useSelector((state: RootState) => state.battle);
 
   const [selectedBattle, setSelectedBattle] = useState<number | undefined>();
@@ -58,4 +58,4 @@ function BattleListView(): React.ReactElement {
   );
 }
 
-export default BattleListView;
+export default QuestListView;

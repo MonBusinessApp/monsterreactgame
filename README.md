@@ -23,12 +23,10 @@
 
 ### todos
 
-[]add logged in player
-[]monster overview forlogged in player
-[]improve ui(more info for battles, better feedback when hit)
-[-]notifications
 []split active battles and "quests"(contains 3 battles)
 []rewards
+[-]notifications
+[]improve ui(more info for battles, better feedback when hit)
 
 ##future todos
 []find solution for ai mons; they should be garbage collected after fight?
@@ -37,6 +35,8 @@
 []login
 
 #done
+[x]monster overview for logged in player
+[x]add logged in player
 [x]improve ui (hide buttons when not needed)
 [x]real damage calculation
 [x]use router

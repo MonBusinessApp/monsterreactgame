@@ -17,6 +17,7 @@ export interface ActiveBattleUiState {
 const initialState: BattleState = {
   battles: [
     {
+      type: 'ActiveBattle',
       id: 1,
       roundCount: 0,
       turnQueue: [],
@@ -41,7 +42,7 @@ const initialState: BattleState = {
   activeBattleUI: null,
 };
 function createBattleUiState(b?: Battle): ActiveBattleUiState | null {
-  if (b == undefined) {
+  if (b == undefined || b.type != 'ActiveBattle') {
     return null;
   }
   return { activeBattle: b.id, possibleTargets: [], targetPos: undefined, nextMonsterId: b.turnQueue[0] };
@@ -78,7 +79,7 @@ const battleSlice = createSlice({
     });
     builder.addCase(nextTurnCreator, (state, action) => {
       const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
-      if (battle == undefined) {
+      if (battle == undefined || battle.type != 'ActiveBattle') {
         throw 'battle is not defined!';
       }
       battle.turnQueue = action.payload.turnQueue;
@@ -86,7 +87,7 @@ const battleSlice = createSlice({
     });
     builder.addCase(nextRoundCreator, (state, action) => {
       const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
-      if (battle == undefined) {
+      if (battle == undefined || battle.type != 'ActiveBattle') {
         throw 'battle is not defined!';
       }
       battle.roundCount = action.payload.roundCount;

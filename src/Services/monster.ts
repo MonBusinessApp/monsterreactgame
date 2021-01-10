@@ -1,4 +1,4 @@
-import { Monster } from '../Models/monster';
+import type { Monster } from '../Models/monster';
 
 export function isAlive(m: Monster | undefined): boolean {
   if (m == undefined) {

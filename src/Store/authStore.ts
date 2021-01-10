@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type LoggedIn = { type: 'loggedIn'; userId: number };
-type LoggedOut = { type: 'loggedOut' };
+export type LoggedIn = { type: 'loggedIn'; userId: number };
+export type LoggedOut = { type: 'loggedOut' };
 
 export type AuthState = LoggedIn | LoggedOut;
 
-const initialState: AuthState = { type: 'loggedOut' };
+const initialState: AuthState = { type: 'loggedIn', userId: 1 };
 
 const authSlice = createSlice({
   name: 'auth',

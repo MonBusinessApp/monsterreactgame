@@ -12,10 +12,12 @@ const initialState = {
     {
       id: 1,
       monsterIds: [1, 2, 3, 4],
+      userId: 1,
     },
     {
       id: 2,
       monsterIds: [5, 6, 7, 8],
+      userId: 2,
     },
   ],
 } as TeamState;

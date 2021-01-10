@@ -4,12 +4,29 @@ export interface LineUp {
   teamId: number;
   lineUp: number[][];
 }
-export interface Battle {
+export interface ActiveBattle {
+  type: 'ActiveBattle';
   id: number;
   turnQueue: number[]; //who is next in turn?
   roundCount: number;
   lineUps: LineUp[];
 }
+
+export interface NewBattle {
+  type: 'NewBattle';
+  id: number;
+  roundCount: number;
+  lineUps: LineUp[];
+}
+
+export interface EndedBattle {
+  type: 'EndedBattle';
+  id: number;
+  roundCount: number;
+  lineUps: LineUp[];
+}
+
+export type Battle = ActiveBattle | NewBattle | EndedBattle;
 
 export interface Attack {
   battleId: number;
