@@ -17,7 +17,7 @@ import { monsterSelectors } from '../Store/monsterStore';
 export function handleNextRound(b: Battle, state: RootState): BattleEvents {
   const teams = state.team.teams.filter((t) => b.lineUps.find((tId) => tId.teamId == t.id));
   const winner = isGameOver(teams, getMonsInBattle(b, state));
-  if (winner != false || b.type == 'EndedBattle' || b.type == 'NewBattle') {
+  if (winner != false) {
     return battleEndedCreator({ winningTeamId: 1 });
   }
   //filter all dead mons for safety

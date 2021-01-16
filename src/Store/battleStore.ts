@@ -2,6 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Battle, BattlePos } from '../Models/battle';
 import { battleEndedCreator, nextRoundCreator, nextTurnCreator, startBattleCreator } from './battleActions';
 
+export interface BattlePrototype {
+  difficulty: number;
+}
+
 export interface BattleState {
   battles: Battle[];
   activeBattleUI: ActiveBattleUiState | null;
@@ -17,7 +21,6 @@ export interface ActiveBattleUiState {
 const initialState: BattleState = {
   battles: [
     {
-      type: 'ActiveBattle',
       id: 1,
       roundCount: 0,
       turnQueue: [],
@@ -37,12 +40,13 @@ const initialState: BattleState = {
           ],
         },
       ],
+      state: 'New',
     },
   ],
   activeBattleUI: null,
 };
 function createBattleUiState(b?: Battle): ActiveBattleUiState | null {
-  if (b == undefined || b.type != 'ActiveBattle') {
+  if (b == undefined) {
     return null;
   }
   return { activeBattle: b.id, possibleTargets: [], targetPos: undefined, nextMonsterId: b.turnQueue[0] };
@@ -79,7 +83,7 @@ const battleSlice = createSlice({
     });
     builder.addCase(nextTurnCreator, (state, action) => {
       const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
-      if (battle == undefined || battle.type != 'ActiveBattle') {
+      if (battle == undefined) {
         throw 'battle is not defined!';
       }
       battle.turnQueue = action.payload.turnQueue;
@@ -87,7 +91,7 @@ const battleSlice = createSlice({
     });
     builder.addCase(nextRoundCreator, (state, action) => {
       const battle = state.battles.find((b) => b.id == state.activeBattleUI?.activeBattle);
-      if (battle == undefined || battle.type != 'ActiveBattle') {
+      if (battle == undefined) {
         throw 'battle is not defined!';
       }
       battle.roundCount = action.payload.roundCount;
