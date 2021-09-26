@@ -10,7 +10,7 @@ import {
 } from '../Store/battleActions';
 
 import store, { RootState } from '../Store/store';
-import { isAlive } from './monster';
+import { isAlive } from './monsterService';
 import { monsterSelectors } from '../Store/monsterStore';
 
 export function handleNextRound(b: Battle, state: RootState): BattleEvents {
@@ -54,8 +54,8 @@ export function calculateDamage(sourceMon: Monster, targetMon: Monster): number 
     (sourceMon.battleValues.attack * sourceMon.battleValues.attack) /
     (sourceMon.battleValues.attack + targetMon.battleValues.defense);
 
-  if (targetMon.battleValues.currentHP < result) {
-    return targetMon.battleValues.currentHP;
+  if (targetMon.battleValues.remainingHp < result) {
+    return targetMon.battleValues.remainingHp;
   }
   return result;
 }

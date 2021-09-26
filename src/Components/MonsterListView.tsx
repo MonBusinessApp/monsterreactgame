@@ -1,6 +1,7 @@
 import { Container, Grid } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { getUserMonsters } from '../Services/monsterService';
 
 import { monsterSelectors } from '../Store/monsterStore';
 
@@ -11,6 +12,14 @@ function MonsterListView({ userId }: { userId: number }): React.ReactElement {
   const monsterList = useSelector((state: RootState) =>
     monsterSelectors.selectAll(state).filter((m) => m.userId == userId),
   );
+
+  useEffect(() => {
+    const fetchMonsters = async () => {
+      return await getUserMonsters(1);
+    };
+
+    fetchMonsters();
+  }, []);
 
   return (
     <Container>

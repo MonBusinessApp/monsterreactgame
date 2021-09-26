@@ -9,11 +9,17 @@ const initialState = monsterAdapter.addMany(monsterAdapter.getInitialState(), [
   createMonster({ id: 1, name: 'Schiggo', teamId: 1, userId: 1 }),
   createMonster({ id: 2, name: 'Bisasa', teamId: 1, userId: 1 }),
   createMonster({ id: 3, name: 'Gluwurak', teamId: 1, userId: 1 }),
-  createMonster({ id: 4, name: 'Bisawu', battleValues: createBattleValues({ currentHP: 10 }), teamId: 1, userId: 1 }),
+  createMonster({ id: 4, name: 'Bisawu', battleValues: createBattleValues({ remainingHp: 10 }), teamId: 1, userId: 1 }),
   createMonster({ id: 5, name: 'Schiggo2', teamId: 2, userId: 2 }),
   createMonster({ id: 6, name: 'Bisasa2', teamId: 2, userId: 2 }),
   createMonster({ id: 7, name: 'Gluwurak2', teamId: 2, userId: 2 }),
-  createMonster({ id: 8, name: 'Bisawu2', battleValues: createBattleValues({ currentHP: 10 }), teamId: 2, userId: 2 }),
+  createMonster({
+    id: 8,
+    name: 'Bisawu2',
+    battleValues: createBattleValues({ remainingHp: 10 }),
+    teamId: 2,
+    userId: 2,
+  }),
 ]);
 
 const localMonsterSelectors = monsterAdapter.getSelectors();
@@ -23,7 +29,7 @@ const monsterSlice = createSlice({
   name: 'monster',
   initialState,
   reducers: {
-    monAdded: monsterAdapter.addOne,
+    monAdded: monsterAdapter.upsertOne,
     monRemoved: monsterAdapter.removeOne,
     takeDamage(state, action: TakeDamageEvent) {
       const mon = localMonsterSelectors.selectById(state, action.payload.monId);
@@ -33,7 +39,7 @@ const monsterSlice = createSlice({
       const updatedValues = mon.battleValues;
       monsterAdapter.updateOne(state, {
         id: mon.id,
-        changes: { battleValues: { ...updatedValues, currentHP: updatedValues.currentHP - action.payload.HP } },
+        changes: { battleValues: { ...updatedValues, remainingHp: updatedValues.remainingHp - action.payload.HP } },
       });
     },
   },

@@ -52,7 +52,7 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
 
   //todo make a hook out of them
   let isAlive = true;
-  if (monsterState.battleValues.currentHP <= 0) {
+  if (monsterState.battleValues.remainingHp <= 0) {
     isAlive = false;
     backgroundColor = grey[400];
   }
@@ -98,8 +98,8 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
             className={classes.progressRoot}
             variant="determinate"
             color="secondary"
-            currentVal={m.battleValues.currentHP}
-            maxVal={m.battleValues.maxHP}
+            currentVal={m.battleValues.remainingHp}
+            maxVal={m.battleValues.maxHp}
           />
         </ListItemText>
       </ListItem>

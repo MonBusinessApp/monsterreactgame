@@ -9,21 +9,21 @@ export interface Monster {
 }
 
 export interface BattleValues {
-  currentHP: number;
-  maxHP: number;
+  remainingHp: number;
+  maxHp: number;
   attack: number;
   defense: number;
 }
 
 export function createBattleValues({
-  currentHP = 10,
-  maxHP = 10,
+  remainingHp: currentHP = 10,
+  maxHp: maxHP = 10,
   attack = 10,
   defense = 10,
 }: Partial<BattleValues>): BattleValues {
   return {
-    currentHP,
-    maxHP,
+    remainingHp: currentHP,
+    maxHp: maxHP,
     attack,
     defense,
   };
