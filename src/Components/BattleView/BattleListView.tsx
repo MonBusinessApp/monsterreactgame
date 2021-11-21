@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
 import { Accordion, AccordionDetails, AccordionSummary, Fab, makeStyles } from '@material-ui/core';
-import { sendStartBattleCmd } from '../../Services/battle';
+import { battleSelectors } from '../../Store/battleStore';
+import { getUserBattles, startBattle } from '../../Services/battleService';
 
 function QuestListView(): React.ReactElement {
-  const battleState = useSelector((state: RootState) => state.battle);
+  const battles = useSelector((state: RootState) => battleSelectors.selectAll(state));
 
   const [selectedBattle, setSelectedBattle] = useState<number | undefined>();
 
@@ -13,7 +14,7 @@ function QuestListView(): React.ReactElement {
     if (selectedBattle == undefined) {
       throw 'battle is not selected';
     }
-    sendStartBattleCmd(selectedBattle);
+    startBattle(selectedBattle);
   }
 
   const useStyles = makeStyles((theme) => ({
@@ -23,6 +24,14 @@ function QuestListView(): React.ReactElement {
       right: 'auto',
     },
   }));
+
+  useEffect(() => {
+    const fetchBattles = async () => {
+      return await getUserBattles(1);
+    };
+
+    fetchBattles();
+  }, []);
 
   const classes = useStyles();
 
@@ -44,7 +53,6 @@ function QuestListView(): React.ReactElement {
     );
   }
 
-  const battles = battleState.battles;
   return (
     <div>
       {renderStartButton()}

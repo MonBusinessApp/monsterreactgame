@@ -1,4 +1,4 @@
-import type { Battle, BattleEvents, BattlePos } from '../Models/battle';
+import type { Attack, Battle, BattleEvents, BattlePos } from '../Models/battle';
 import type { Monster } from '../Models/monster';
 import type { Team } from '../Models/team';
 import {
@@ -13,6 +13,7 @@ import store, { RootState } from '../Store/store';
 import { isAlive } from './monsterService';
 import { monsterSelectors } from '../Store/monsterStore';
 
+/*
 export function handleNextRound(b: Battle, state: RootState): BattleEvents {
   const teams = state.team.teams.filter((t) => b.lineUps.find((tId) => tId.teamId == t.id));
   const winner = isGameOver(teams, getMonsInBattle(b, state));
@@ -62,7 +63,7 @@ export function calculateDamage(sourceMon: Monster, targetMon: Monster): number 
 
 export function isGameOver(teams: Team[], mons: Monster[]): number | false {
   const monsterTeams = teams.map((t) => {
-    return { teamId: t.id, monsters: t.monsterIds.map((mId) => mons.find((m) => m.id == mId)) };
+    return { teamId: t.id, monsters: t.monsters.map((mId) => mons.find((m) => m.id == mId)) };
   });
 
   const aliveTeams = [];
@@ -89,20 +90,10 @@ export function isGameOver(teams: Team[], mons: Monster[]): number | false {
 }
 
 export function sendStartBattleCmd(battleId: number): void {
-  const rootState = store.getState();
-  //todo useful version
-  const battle = rootState.battle.battles.find((b) => b.id == battleId);
-  if (battle == undefined) {
-    throw 'battle is undefined';
-  }
-  console.log('do stuff');
-  store.dispatch(startBattleCreator({ b: battle }));
-
-  if (battle == undefined) {
-    throw 'battle does not exist';
-  }
+  store.dispatch(startBattleCreator(1));
 }
 
-export function sendAttackCmd(): void {
-  store.dispatch(attackCmdCreator({}));
+export function sendAttackCmd(attack: Attack): void {
+  store.dispatch(attackCmdCreator(attack));
 }
+*/

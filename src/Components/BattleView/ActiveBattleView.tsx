@@ -3,9 +3,8 @@ import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
 import { Fab, Grid, makeStyles, SvgIcon } from '@material-ui/core';
 import BattleTeam from './BattleTeam';
-import { sendAttackCmd } from '../../Services/battle';
 import { mdiSwordCross } from '@mdi/js';
-
+/*
 function handleClickAttack() {
   sendAttackCmd();
 }
@@ -55,6 +54,11 @@ function ActiveBattleView(): React.ReactElement {
       </Grid>
     </div>
   );
+}
+*/
+
+function ActiveBattleView(): React.ReactElement {
+  return <div></div>
 }
 
 export default ActiveBattleView;

@@ -5,6 +5,7 @@ export interface Monster {
   name: string;
   userId: number;
   battleValues: BattleValues;
+  statusValues: StatusValues;
   teamId: number;
 }
 
@@ -13,6 +14,10 @@ export interface BattleValues {
   maxHp: number;
   attack: number;
   defense: number;
+}
+
+export interface StatusValues {
+  isAlive: boolean;
 }
 
 export function createBattleValues({
@@ -27,6 +32,10 @@ export function createBattleValues({
     attack,
     defense,
   };
+}
+
+function createStatusValues(): StatusValues {
+  return { isAlive: true };
 }
 
 export function createMonster({
@@ -46,6 +55,7 @@ export function createMonster({
     id,
     name,
     battleValues,
+    statusValues: createStatusValues(),
     teamId,
     userId,
   };

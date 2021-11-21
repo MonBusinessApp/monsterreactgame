@@ -5,24 +5,13 @@ import { attackCreator, startBattleCreator } from '../Store/battleActions';
 
 import { monsterSelectors, takeDamage } from '../Store/monsterStore';
 import type { RootState } from '../Store/store';
-import { calculateDamage, handleNextRound } from './battle';
-
-function getMonByPos(monPos: BattlePos, battle: Battle, state: RootState): Monster | undefined {
-  //do attack stuff
-  const monTeam = battle.lineUps.find((l) => l.teamId == monPos.teamId);
-
-  const monId = monTeam?.lineUp[monPos.pos[0]][monPos.pos[1]];
-  if (monId == undefined) {
-    return undefined;
-  }
-  return monsterSelectors.selectById(state, monId);
-}
 
 export const battleMiddleware: Middleware<
   unknown, // legacy type parameter added to satisfy interface signature
   RootState
 > = (store) => (next) => (action) => {
   next(action);
+  /*
   if (startBattleCreator.match(action)) {
     const state = store.getState();
     const battle = action.payload.b;
@@ -63,4 +52,5 @@ export const battleMiddleware: Middleware<
     const nextEvent = handleNextRound(newBattle, newState);
     store.dispatch(nextEvent);
   }
+  */
 };

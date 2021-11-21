@@ -24,14 +24,14 @@ import { monsterSelectors } from '../Store/monsterStore';
 import { Monster } from '../Models/monster';
 import { mdiSwordCross } from '@mdi/js';
 
-function LinearProgressWithLabel(props: LinearProgressProps & { currentVal: number; maxVal: number }) {
+function LinearProgressWithLabel(props: LinearProgressProps & { currentval: number; maxval: number }) {
   return (
     <Box display="flex" alignItems="center">
       <Box width="100%" mr={1}>
-        <LinearProgress variant="determinate" {...props} value={(props.currentVal / props.maxVal) * 100} />
+        <LinearProgress variant="determinate" {...props} value={(props.currentval / props.maxval) * 100} />
       </Box>
       <Box minWidth={35}>
-        <Typography variant="body2" color="textSecondary">{`${props.currentVal}/${props.maxVal}`}</Typography>
+        <Typography variant="body2" color="textSecondary">{`${props.currentval}/${props.maxval}`}</Typography>
       </Box>
     </Box>
   );
@@ -98,8 +98,8 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
             className={classes.progressRoot}
             variant="determinate"
             color="secondary"
-            currentVal={m.battleValues.remainingHp}
-            maxVal={m.battleValues.maxHp}
+            currentval={m.battleValues.remainingHp}
+            maxval={m.battleValues.maxHp}
           />
         </ListItemText>
       </ListItem>

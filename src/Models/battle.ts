@@ -1,16 +1,31 @@
 import { PayloadAction } from '@reduxjs/toolkit';
+import { Team, TeamApi } from './team';
 
 export interface LineUp {
   teamId: number;
   lineUp: number[][];
 }
+
+
+export interface ActiveBattle {
+  turnQueue: number[]; //who is next in turn?
+  turnCount: number;
+}
 export interface Battle {
   id: number;
-  turnQueue: number[]; //who is next in turn?
-  roundCount: number;
-  lineUps: LineUp[];
-  state: 'New' | 'Active' | 'Ended';
+  activeBattle: ActiveBattle;
+  teams: Team[];
+  state: 'new' | 'active' | 'ended';
 }
+
+
+export interface BattleApi {
+  id: number;
+  activeBattle: ActiveBattle;
+  teams: TeamApi[];
+  state: 'new' | 'active' | 'ended';
+}
+
 
 export interface Attack {
   battleId: number;

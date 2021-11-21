@@ -7,7 +7,7 @@ import NotificationBar from './Components/NotificationBar';
 import store, { RootState } from './Store/store';
 
 import { createAddNotification } from './Store/notificationStore';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import MonsterListView from './Components/MonsterListView';
@@ -25,17 +25,13 @@ function App(): React.ReactElement {
     <div className="App">
       <NotificationBar />
 
-      <Router>
+      <BrowserRouter>
         <AppBar></AppBar>
-        <Switch>
-          <Route path="/battle">
-            <BattleView />
-          </Route>
-          <Route path="/monster">
-            <MonsterListView userId={authState.userId} />
-          </Route>
-        </Switch>
-      </Router>
+        <Routes>
+          <Route path="/battle" element={<BattleView />} />
+          <Route path="/monster" element={<MonsterListView userId={authState.userId} />} />
+        </Routes>
+      </BrowserRouter>
       <Button onClick={handleClick}>Click</Button>
     </div>
   );

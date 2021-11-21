@@ -9,19 +9,19 @@ import BattleListView from './BattleView/BattleListView';
 function BattleView(): React.ReactElement {
   const battleState = useSelector((state: RootState) => state.battle);
 
-  if (battleState.activeBattleUI == null) {
-    return (
-      <Container>
-        <BattleListView />
-      </Container>
-    );
-  }
-
   return (
     <Container>
-      <ActiveBattleView></ActiveBattleView>
+      <BattleListView />
     </Container>
   );
+
+  /*
+    return (
+      <Container>
+        <ActiveBattleView></ActiveBattleView>
+      </Container>
+    );
+    */
 }
 
 export default BattleView;

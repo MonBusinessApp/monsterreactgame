@@ -1,13 +1,13 @@
 import React from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
-import { Grid, makeStyles, Paper } from '@material-ui/core';
+import { Grid, List, makeStyles, Paper } from '@material-ui/core';
 import MonsterView from './MonsterView';
 import blue from '@material-ui/core/colors/blue';
 import red from '@material-ui/core/colors/red';
+import { battleSelectors } from '../../Store/battleStore';
 function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }): React.ReactElement {
-  const battle = useSelector((state: RootState) => state.battle.battles.find((b) => b.id == battleId));
-  const myLineUp = battle?.lineUps.find((l) => l.teamId == teamId);
+  const battle = useSelector((state: RootState) => battleSelectors.selectById(state, battleId));
   const useStyles = makeStyles((theme) => ({
     paperRoot: {
       backgroundColor: blue[100],
@@ -19,7 +19,9 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
   }));
   const classes = useStyles();
 
-  if (myLineUp == undefined) {
+
+  let myMonsters = battle?.teams.filter(t => t.id == teamId).flatMap(t => t.monsters)
+  if (myMonsters == undefined) {
     return (
       <Paper style={{ height: '100%' }} className={classes.paperError}>
         Test
@@ -27,18 +29,7 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
     );
   }
 
-  const lineUp = myLineUp.lineUp;
-  const list = [];
-  for (let x = 0; x < lineUp.length; x++) {
-    for (let y = 0; y < lineUp[x].length; y++) {
-      const mId = lineUp[x][y];
-      list.push(
-        <Grid item key={mId} xs={6}>
-          <MonsterView monId={mId} monPos={{ pos: [x, y], teamId: myLineUp.teamId }}></MonsterView>
-        </Grid>,
-      );
-    }
-  }
+  const list = myMonsters.map(m => <MonsterView monId={m} teamId={teamId}></MonsterView>);
 
   return (
     <Paper className={classes.paperRoot}>
@@ -49,5 +40,6 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
     </Paper>
   );
 }
+
 
 export default BattleTeam;

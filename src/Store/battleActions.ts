@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { Attack, Battle, BattleEnded, BattlePos, NextRound, NextTurn } from '../Models/battle';
+import { executeAction, startBattle } from '../Services/battleService';
 import { monsterSelectors } from './monsterStore';
 import { RootState } from './store';
 
@@ -11,40 +12,38 @@ export const attackCreator = createAction<Attack>('battle/attack');
 export const battleEndedCreator = createAction<BattleEnded>('battle/battleEnded');
 export const nextRoundCreator = createAction<NextRound>('battle/nextRound');
 export const nextTurnCreator = createAction<NextTurn>('battle/nextTurn');
-export const startBattleCreator = createAction<{ b: Battle }>('battle/battleStarted');
+export const abab = createAction<{ b: Battle }>('battle/battleStarted');
+
+export const startBattleCreator = createAsyncThunk<
+  { blob: string },
+  number,
+  {
+    state: RootState;
+    rejectValue: SendAttackCmdError;
+  }
+>('battle/sendStartBattleCmd', async (id, thunkApi) => {
+  await startBattle(id);
+  return { blob: 'test' };
+});
 
 export const attackCmdCreator = createAsyncThunk<
   // Return type of the payload creator
   { blob: string },
   // First argument to the payload creator
-  Record<string, never>,
+  Attack,
   // Types for ThunkAPI
   {
     state: RootState;
     rejectValue: SendAttackCmdError;
   }
->('battle/sendAttackCmd', async (_1, thunkApi) => {
+>('battle/sendAttackCmd', async (attack, thunkApi) => {
   const state = thunkApi.getState();
 
-  const activeBattleUI = state.battle.activeBattleUI;
-  if (activeBattleUI == null) {
-    return thunkApi.rejectWithValue({ error: 'There is no active battle' });
-  }
-  const battleId = activeBattleUI.activeBattle;
-
-  const source = activeBattleUI.nextMonsterId;
-  const target = activeBattleUI.targetPos;
-
-  if (target == undefined) {
-    return thunkApi.rejectWithValue({ error: 'No target was defined' });
-  }
-
-  const attackAction = attackCreator({ battleId, source: getPosOfMonster(source, state), target });
-  thunkApi.dispatch(attackAction);
+  await executeAction(attack);
 
   return { blob: 'test' };
 });
-
+/*
 function getPosOfMonster(monId: number, state: RootState): BattlePos {
   const activeBattle = state.battle.activeBattleUI;
   if (activeBattle == null) {
@@ -69,3 +68,4 @@ function getPosOfMonster(monId: number, state: RootState): BattlePos {
 
   throw 'could not find monster';
 }
+*/

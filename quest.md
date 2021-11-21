@@ -1,3 +1,14 @@
+#todo
+[]more info for the given battles
+[]implement all actions in one battle
+
+
+
+[]websocket
+
+
+
+
 # Quest
 
 ## states

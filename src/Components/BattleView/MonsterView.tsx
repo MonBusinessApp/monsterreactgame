@@ -15,28 +15,27 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { Monster } from '../../Models/monster';
 import { green, grey, red, teal } from '@material-ui/core/colors';
 import { BattlePos, isBattlePosEqual } from '../../Models/battle';
-import { setTargetPos } from '../../Store/battleStore';
 import { mdiSkullCrossbones } from '@mdi/js';
 import { monsterSelectors } from '../../Store/monsterStore';
 
 function MonsterView({
   monId,
-  monPos,
+  teamId,
   possibleTarget = false,
 }: {
   monId: number;
-  monPos: BattlePos;
+  teamId: number;
   possibleTarget?: boolean;
 }): React.ReactElement {
   const monsterState: Monster | undefined = useSelector((state: RootState) =>
     monsterSelectors.selectById(state, monId),
   );
-
-  const activeBattleUI = useSelector((state: RootState) => state.battle.activeBattleUI);
-  if (activeBattleUI == null) {
-    throw 'activeBattle is null';
-  }
-
+  /*
+    const activeBattleUI = useSelector((state: RootState) => state.battle.activeBattleUI);
+    if (activeBattleUI == null) {
+      throw 'activeBattle is null';
+    }
+  */
   const [isMouseOver, handleMouseOver] = useState(false);
   if (monsterState == undefined) {
     return (
@@ -47,7 +46,7 @@ function MonsterView({
   }
 
   function handleClick() {
-    store.dispatch(setTargetPos(monPos));
+    //store.dispatch(setTargetPos(monPos));
   }
 
   let saturation: '100' | '300' = '100';
@@ -59,9 +58,11 @@ function MonsterView({
   if (possibleTarget) {
     backgroundColor = red[saturation];
   }
+  /*
   if (activeBattleUI.nextMonsterId == monId) {
     backgroundColor = green[saturation];
   }
+  */
   //todo make a hook out of them
   let isAlive = true;
   if (monsterState.battleValues.remainingHp <= 0) {
@@ -70,14 +71,16 @@ function MonsterView({
   }
 
   function getStyles(): { variant: 'outlined' | 'elevation'; classNames: string[] } {
-    let variant: 'outlined' | 'elevation';
+    let variant: 'outlined' | 'elevation' = 'outlined';
     const classNames = [classes.monsterRoot];
+    /*
     if (isBattlePosEqual(activeBattleUI?.targetPos, monPos)) {
       variant = 'outlined';
       classNames.push(classes.paperOutline);
     } else {
       variant = 'elevation';
     }
+    */
     return { variant, classNames };
   }
 
