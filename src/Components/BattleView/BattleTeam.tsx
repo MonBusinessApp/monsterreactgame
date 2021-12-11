@@ -1,11 +1,11 @@
 import React from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
-import { Grid, List, makeStyles, Paper } from '@material-ui/core';
+import { Grid, List, Paper } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import MonsterView from './MonsterView';
-import blue from '@material-ui/core/colors/blue';
-import red from '@material-ui/core/colors/red';
 import { battleSelectors } from '../../Store/battleStore';
+import { blue, red } from '@mui/material/colors';
 function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }): React.ReactElement {
   const battle = useSelector((state: RootState) => battleSelectors.selectById(state, battleId));
   const useStyles = makeStyles((theme) => ({

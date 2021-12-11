@@ -1,9 +1,10 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import { Tabs } from '@material-ui/core';
-import { Tab } from '@material-ui/core';
+import makeStyles from '@mui/styles/makeStyles';
+
 import { useLocation } from 'react-router-dom';
+import { Theme } from '@mui/material/styles';
+import { createStyles } from '@mui/styles';
+import { AppBar, Tab, Tabs } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

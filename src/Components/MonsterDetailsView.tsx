@@ -9,14 +9,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  makeStyles,
   Paper,
   SvgIcon,
   Typography,
-} from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+} from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { grey, teal } from '@material-ui/core/colors';
+import { grey, teal } from '@mui/material/colors';
 
 import { mdiShield, mdiSkullCrossbones } from '@mdi/js';
 import { RootState } from '../Store/store';

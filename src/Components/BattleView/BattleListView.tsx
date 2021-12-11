@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
-import { Accordion, AccordionDetails, AccordionSummary, Fab, makeStyles } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Fab } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { battleSelectors } from '../../Store/battleStore';
 import { getUserBattles, startBattle } from '../../Services/battleService';
 

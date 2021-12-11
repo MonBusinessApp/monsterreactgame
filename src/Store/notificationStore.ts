@@ -24,7 +24,7 @@ const notificationSlice = createSlice({
   initialState,
   reducers: {
     add: {
-      reducer: (state, action: PayloadAction<NotificationMessage>) => {
+      reducer: (state: NotificationState, action: PayloadAction<NotificationMessage>) => {
         state.messages.push(action.payload);
       },
       prepare: (text: string) => {
@@ -33,7 +33,7 @@ const notificationSlice = createSlice({
         };
       },
     },
-    remove(state, action: PayloadAction<string>) {
+    remove(state: NotificationState, action: PayloadAction<string>) {
       state.messages = state.messages.filter((n) => n.id != action.payload);
     },
   },

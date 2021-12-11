@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
 import store, { RootState } from '../../Store/store';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
-import {
-  LinearProgress,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  makeStyles,
-  Paper,
-  SvgIcon,
-} from '@material-ui/core';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import { LinearProgress, List, ListItem, ListItemIcon, ListItemText, Paper, SvgIcon } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { Monster } from '../../Models/monster';
-import { green, grey, red, teal } from '@material-ui/core/colors';
+import { green, grey, red, teal } from '@mui/material/colors';
 import { BattlePos, isBattlePosEqual } from '../../Models/battle';
 import { mdiSkullCrossbones } from '@mdi/js';
 import { monsterSelectors } from '../../Store/monsterStore';

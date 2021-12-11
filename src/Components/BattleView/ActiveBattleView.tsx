@@ -1,7 +1,8 @@
 import React from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
-import { Fab, Grid, makeStyles, SvgIcon } from '@material-ui/core';
+import { Fab, Grid, SvgIcon } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import BattleTeam from './BattleTeam';
 import { mdiSwordCross } from '@mdi/js';
 /*

@@ -1,10 +1,10 @@
-import { Snackbar } from '@material-ui/core';
+import { Snackbar } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import store, { RootState } from '../Store/store';
 
-import MuiAlert from '@material-ui/lab/Alert';
+import MuiAlert from '@mui/material/Alert';
 import { notificationConfig, remove } from '../Store/notificationStore';
 
 function NotificationBar(): React.ReactElement {

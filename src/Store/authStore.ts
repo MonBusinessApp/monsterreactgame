@@ -14,7 +14,7 @@ const authSlice = createSlice({
     logout() {
       return { type: 'loggedOut' } as AuthState;
     },
-    login(state, action: PayloadAction<{ userId: number }>) {
+    login(_, action: PayloadAction<{ userId: number }>) {
       return {
         type: 'loggedIn',
         userId: action.payload.userId,
