@@ -29,9 +29,10 @@ const battleSlice = createSlice({
   reducers: {
     add: battleAdapter.upsertOne,
     remove: battleAdapter.removeOne,
+    update: battleAdapter.upsertOne,
   },
 });
 
 export const battleSelectors = battleAdapter.getSelectors<RootState>((state) => state.battle);
-export const { add: battleAdded, remove: removedBattle } = battleSlice.actions;
+export const { add: battleAdded, update: battleUpdated, remove: removedBattle } = battleSlice.actions;
 export default battleSlice.reducer;

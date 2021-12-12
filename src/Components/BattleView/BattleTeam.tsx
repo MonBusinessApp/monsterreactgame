@@ -19,8 +19,11 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
   }));
   const classes = useStyles();
 
-
-  let myMonsters = battle?.teams.filter(t => t.id == teamId).flatMap(t => t.monsters)
+  const myMonsters = battle?.teams.filter((t) => t.id == teamId).flatMap((t) => t.monsters);
+  console.log(
+    'teamstuff',
+    battle?.teams.filter((t) => t.id == teamId),
+  );
   if (myMonsters == undefined) {
     return (
       <Paper style={{ height: '100%' }} className={classes.paperError}>
@@ -29,7 +32,7 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
     );
   }
 
-  const list = myMonsters.map(m => <MonsterView monId={m} teamId={teamId}></MonsterView>);
+  const list = myMonsters.map((m) => <MonsterView monId={m} teamId={teamId} battleId={battleId} key={m}></MonsterView>);
 
   return (
     <Paper className={classes.paperRoot}>
@@ -40,6 +43,5 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
     </Paper>
   );
 }
-
 
 export default BattleTeam;

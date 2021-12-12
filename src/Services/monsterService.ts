@@ -23,3 +23,11 @@ export async function getUserMonsters(id: number): Promise<Monster[]> {
 
   return response.data;
 }
+
+export async function getMonsterById(id: number): Promise<Monster> {
+  const response = await axios.get<Monster>(`${monsterServiceUrl}/${id}`);
+
+  store.dispatch(monAdded(response.data));
+
+  return response.data;
+}

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Accordion, AccordionDetails, AccordionSummary, Fab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { battleSelectors } from '../../Store/battleStore';
-import { getUserBattles, startBattle } from '../../Services/battleService';
+import { getBattlesByUser, startBattle } from '../../Services/battleService';
 
 function QuestListView(): React.ReactElement {
   const battles = useSelector((state: RootState) => battleSelectors.selectAll(state));
@@ -28,7 +28,7 @@ function QuestListView(): React.ReactElement {
 
   useEffect(() => {
     const fetchBattles = async () => {
-      return await getUserBattles(1);
+      return await getBattlesByUser(1);
     };
 
     fetchBattles();

@@ -6,7 +6,6 @@ export interface LineUp {
   lineUp: number[][];
 }
 
-
 export interface ActiveBattle {
   turnQueue: number[]; //who is next in turn?
   turnCount: number;
@@ -18,7 +17,6 @@ export interface Battle {
   state: 'new' | 'active' | 'ended';
 }
 
-
 export interface BattleApi {
   id: number;
   activeBattle: ActiveBattle;
@@ -26,11 +24,10 @@ export interface BattleApi {
   state: 'new' | 'active' | 'ended';
 }
 
-
 export interface Attack {
   battleId: number;
-  source: BattlePos;
-  target: BattlePos;
+  source: number;
+  target: number;
 }
 
 export interface BattleEnded {

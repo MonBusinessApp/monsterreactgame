@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import store, { RootState } from '../../Store/store';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
@@ -9,25 +9,34 @@ import { green, grey, red, teal } from '@mui/material/colors';
 import { BattlePos, isBattlePosEqual } from '../../Models/battle';
 import { mdiSkullCrossbones } from '@mdi/js';
 import { monsterSelectors } from '../../Store/monsterStore';
+import { battleSelectors } from '../../Store/battleStore';
+import { setTarget } from '../../Services/battleService';
+import { getMonsterById } from '../../Services/monsterService';
 
 function MonsterView({
   monId,
   teamId,
+  battleId,
   possibleTarget = false,
 }: {
   monId: number;
   teamId: number;
+  battleId: number;
   possibleTarget?: boolean;
 }): React.ReactElement {
   const monsterState: Monster | undefined = useSelector((state: RootState) =>
     monsterSelectors.selectById(state, monId),
   );
-  /*
-    const activeBattleUI = useSelector((state: RootState) => state.battle.activeBattleUI);
-    if (activeBattleUI == null) {
-      throw 'activeBattle is null';
-    }
-  */
+
+  const selectedSource = useSelector(
+    (state: RootState) => battleSelectors.selectById(state, battleId)?.activeBattle.turnQueue[0],
+  );
+
+  const activeBattleUI = useSelector((state: RootState) => state.activeBattle);
+  if (activeBattleUI == null) {
+    throw 'activeBattle is null';
+  }
+
   const [isMouseOver, handleMouseOver] = useState(false);
   if (monsterState == undefined) {
     return (
@@ -37,8 +46,16 @@ function MonsterView({
     );
   }
 
+  useEffect(() => {
+    const fetchMonster = async () => {
+      return await getMonsterById(monId);
+    };
+
+    fetchMonster();
+  }, []);
+
   function handleClick() {
-    //store.dispatch(setTargetPos(monPos));
+    setTarget(monId);
   }
 
   let saturation: '100' | '300' = '100';
@@ -50,11 +67,10 @@ function MonsterView({
   if (possibleTarget) {
     backgroundColor = red[saturation];
   }
-  /*
-  if (activeBattleUI.nextMonsterId == monId) {
+
+  if (selectedSource == monId) {
     backgroundColor = green[saturation];
   }
-  */
   //todo make a hook out of them
   let isAlive = true;
   if (monsterState.battleValues.remainingHp <= 0) {
@@ -65,14 +81,14 @@ function MonsterView({
   function getStyles(): { variant: 'outlined' | 'elevation'; classNames: string[] } {
     let variant: 'outlined' | 'elevation' = 'outlined';
     const classNames = [classes.monsterRoot];
-    /*
-    if (isBattlePosEqual(activeBattleUI?.targetPos, monPos)) {
+
+    if (activeBattleUI.selectedTarget == monId) {
       variant = 'outlined';
       classNames.push(classes.paperOutline);
     } else {
       variant = 'elevation';
     }
-    */
+
     return { variant, classNames };
   }
 
@@ -83,10 +99,11 @@ function MonsterView({
     },
     progressRoot: {
       height: 10,
+      width: 100,
     },
     paperOutline: {
       borderWidth: 3,
-      borderColor: teal[300],
+      borderColor: red[300],
     },
   }));
   const classes = useStyles();

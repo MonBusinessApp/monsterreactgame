@@ -8,6 +8,7 @@ import notificationReducer, { NotificationState } from './notificationStore';
 import authReducer, { AuthState } from './authStore';
 import { Monster } from '../Models/monster';
 import { Battle } from '../Models/battle';
+import activeBattleReducer, { ActiveBattleState } from './UiStore/activeBattleStore';
 
 export interface RootState {
   monster: EntityState<Monster>;
@@ -15,6 +16,7 @@ export interface RootState {
   battle: EntityState<Battle>;
   notification: NotificationState;
   auth: AuthState;
+  activeBattle: ActiveBattleState;
 }
 const store = configureStore({
   reducer: {
@@ -23,6 +25,7 @@ const store = configureStore({
     battle: battleReducer,
     notification: notificationReducer,
     auth: authReducer,
+    activeBattle: activeBattleReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (middleware) => [...middleware(), battleMiddleware],

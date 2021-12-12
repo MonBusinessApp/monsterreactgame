@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { ThemeProvider, Theme, StyledEngineProvider, createTheme } from '@mui/material/styles';
 
 import MonsterListView from './Components/MonsterListView';
+import ActiveBattleView from './Components/BattleView/ActiveBattleView';
 
 declare module '@mui/styles/defaultTheme' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -39,6 +40,7 @@ function App(): React.ReactElement {
             <AppBar></AppBar>
             <Routes>
               <Route path="/battle" element={<BattleView />} />
+              <Route path="/battle/:id" element={<ActiveBattleView />} />
               <Route path="/monster" element={<MonsterListView userId={authState.userId} />} />
             </Routes>
           </BrowserRouter>
