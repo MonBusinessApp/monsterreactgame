@@ -1,6 +1,5 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Battle, BattleActionExecutedEvent, BattleEvent, BattlePos } from '../Models/battle';
-import { battleEndedCreator, nextRoundCreator, nextTurnCreator, startBattleCreator } from './battleActions';
+import { Battle, BattleActionExecutedEvent, BattlePos } from '../Models/battle';
 import { RootState } from './store';
 
 export interface BattlePrototype {
@@ -9,14 +8,6 @@ export interface BattlePrototype {
 
 export interface BattleState {
   battles: Battle[];
-  activeBattleUI: ActiveBattleUiState | null;
-}
-
-export interface ActiveBattleUiState {
-  activeBattle: number;
-  possibleTargets: number[];
-  nextMonsterId: number;
-  targetPos?: BattlePos;
 }
 
 const battleAdapter = createEntityAdapter<Battle>();

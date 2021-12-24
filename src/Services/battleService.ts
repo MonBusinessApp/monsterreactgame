@@ -3,7 +3,6 @@ import { Attack, Battle, BattleApi, BattleEvent } from '../Models/battle';
 import { actionExecuted, battleAdded, battleUpdated } from '../Store/battleStore';
 import store from '../Store/store';
 import { activeBattleSet, targetSet } from '../Store/UiStore/activeBattleStore';
-import { battleSelectors } from '../Store/battleStore';
 
 const battleServiceUrl = 'http://localhost:5002/api/v1.0/battle';
 

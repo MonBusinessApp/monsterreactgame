@@ -7,7 +7,7 @@ export interface WebSocketState {
 const initialState: WebSocketState = { isConnected: false };
 
 const wsSlice = createSlice({
-  name: 'stuff',
+  name: 'webSocket',
   initialState: initialState,
   reducers: {
     connected(state: WebSocketState) {
