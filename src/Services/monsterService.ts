@@ -37,7 +37,9 @@ export function receiveMonsterEvent(event: MonsterEvent) {
   switch (event.eventType) {
     case 'Added':
       store.dispatch(monAdded(event.added.monster));
+      break;
     case 'Updated':
       store.dispatch(monAdded(event.updated.monster));
+      break;
   }
 }

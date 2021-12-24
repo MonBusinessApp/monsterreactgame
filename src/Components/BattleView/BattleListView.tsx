@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
-import { Accordion, AccordionDetails, AccordionSummary, Fab } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Button, Fab } from '@mui/material';
 import makeStyles from '@mui/styles/makeStyles';
 import { battleSelectors } from '../../Store/battleStore';
 import { getBattlesByUser, startBattle } from '../../Services/battleService';
+import { Battle } from '../../Models/battle';
 
 function QuestListView(): React.ReactElement {
   const battles = useSelector((state: RootState) => battleSelectors.selectAll(state));
@@ -54,6 +55,13 @@ function QuestListView(): React.ReactElement {
     );
   }
 
+  function renderGotoButton(battle: Battle) {
+    if (battle.status == 'active') {
+      return <Button href={`/battle/${battle.id}`}>Goto</Button>;
+    }
+    return <div></div>;
+  }
+
   return (
     <div>
       {renderStartButton()}
@@ -61,6 +69,7 @@ function QuestListView(): React.ReactElement {
         <Accordion expanded={b.id === selectedBattle} onChange={() => setSelectedBattle(b.id)} key={b.id}>
           <AccordionSummary>{b.id}</AccordionSummary>
           <AccordionDetails>Super detailed stuff</AccordionDetails>
+          {renderGotoButton(b)}
         </Accordion>
       ))}
     </div>

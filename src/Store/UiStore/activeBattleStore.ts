@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { actionExecuted } from '../battleStore';
 
 export interface ActiveBattleState {
   battleId: number | undefined;
@@ -19,6 +20,12 @@ const activeBattleSlice = createSlice({
       state.selectedTarget = action.payload.monId;
       return state;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(actionExecuted, (state) => {
+      state.selectedTarget = undefined;
+      return state;
+    });
   },
 });
 

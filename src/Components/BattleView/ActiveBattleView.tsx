@@ -7,7 +7,7 @@ import BattleTeam from './BattleTeam';
 import { mdiSwordCross } from '@mdi/js';
 import { battleSelectors } from '../../Store/battleStore';
 import { executeAction, getBattleById, setActiveBattle } from '../../Services/battleService';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function handleClickAttack(battleId: number, source: number, target: number | undefined) {
   if (target == undefined) {
@@ -42,12 +42,17 @@ function ActiveBattleView(): React.ReactElement {
     },
   }));
 
+  const navigate = useNavigate();
+
   const classes = useStyles();
 
   if (battle == undefined || battle.activeBattle == undefined) {
     return <div>Battle not active</div>;
   }
 
+  if (battle?.status == 'ended') {
+    navigate('/battle');
+  }
   const selectedSource = battle.activeBattle.turnQueue[0];
   function renderAttackButton() {
     if (activeBattleUi.selectedTarget == undefined) {

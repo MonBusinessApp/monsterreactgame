@@ -10,18 +10,21 @@ export interface ActiveBattle {
   turnQueue: number[]; //who is next in turn?
   turnCount: number;
 }
+
+type BattleStatus = 'new' | 'active' | 'ended';
+
 export interface Battle {
   id: number;
   activeBattle: ActiveBattle;
   teams: Team[];
-  state: 'new' | 'active' | 'ended';
+  status: BattleStatus;
 }
 
 export interface BattleApi {
   id: number;
   activeBattle: ActiveBattle;
   teams: TeamApi[];
-  state: 'new' | 'active' | 'ended';
+  status: BattleStatus;
 }
 
 export interface Attack {

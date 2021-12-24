@@ -23,6 +23,7 @@ const battleSlice = createSlice({
     update: battleAdapter.upsertOne,
     actionExecuted(state, event: PayloadAction<{ battleId: number; action: BattleActionExecutedEvent }>) {
       const battle = state.entities[event.payload.battleId];
+      console.log(event);
       if (battle == undefined) {
         throw `battle ${event.payload.battleId} is undefined!`;
       }

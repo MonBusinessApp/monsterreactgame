@@ -36,7 +36,7 @@ export async function getBattleById(id: number): Promise<void> {
   const battle: Battle = {
     id: b.id,
     activeBattle: b.activeBattle,
-    state: b.state,
+    status: b.status,
     teams: b.teams.map((t) => {
       return {
         id: t.id,
@@ -61,12 +61,16 @@ export function receiveBattleEvent(event: BattleEvent) {
   switch (event.eventType) {
     case 'Added':
       store.dispatch(battleAdded(convertBattleApiToBattle(event.added.battle)));
+      break;
     case 'Started':
       store.dispatch(battleUpdated(convertBattleApiToBattle(event.started.battle)));
+      break;
     case 'Ended':
       store.dispatch(battleUpdated(convertBattleApiToBattle(event.ended.battle)));
+      break;
     case 'ActionExecuted':
       store.dispatch(actionExecuted({ battleId: event.battleId, action: event.executed }));
+      break;
   }
 }
 
@@ -74,7 +78,7 @@ function convertBattleApiToBattle(b: BattleApi): Battle {
   return {
     id: b.id,
     activeBattle: b.activeBattle,
-    state: b.state,
+    status: b.status,
     teams: b.teams.map((t) => {
       return {
         id: t.id,
