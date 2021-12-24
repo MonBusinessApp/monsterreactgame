@@ -27,8 +27,14 @@ export default function ButtonAppBar(): React.ReactElement {
   console.log(location.pathname);
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={location.pathname} variant="standard" aria-label="nav tabs example">
+      <AppBar position="static" color="primary">
+        <Tabs
+          value={location.pathname}
+          variant="standard"
+          aria-label="nav tabs example"
+          indicatorColor="secondary"
+          textColor="secondary"
+        >
           <Tab value="/monster" label="Monsters" href="/monster"></Tab>
           <Tab value="/battle" label="Battles" href="/battle"></Tab>
           <Tab component="a" value={2} label="Messages"></Tab>

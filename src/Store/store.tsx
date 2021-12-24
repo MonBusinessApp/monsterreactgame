@@ -3,12 +3,12 @@ import monsterReducer from './monsterStore';
 import teamReducer, { TeamState } from './teamStore';
 import battleReducer from './battleStore';
 
-import { battleMiddleware } from '../Services/battleMiddleware';
 import notificationReducer, { NotificationState } from './notificationStore';
 import authReducer, { AuthState } from './authStore';
 import { Monster } from '../Models/monster';
 import { Battle } from '../Models/battle';
 import activeBattleReducer, { ActiveBattleState } from './UiStore/activeBattleStore';
+import wsReducer, { WebSocketState } from './wsStore';
 
 export interface RootState {
   monster: EntityState<Monster>;
@@ -17,6 +17,7 @@ export interface RootState {
   notification: NotificationState;
   auth: AuthState;
   activeBattle: ActiveBattleState;
+  wsState: WebSocketState;
 }
 const store = configureStore({
   reducer: {
@@ -26,9 +27,10 @@ const store = configureStore({
     notification: notificationReducer,
     auth: authReducer,
     activeBattle: activeBattleReducer,
+    wsState: wsReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
-  middleware: (middleware) => [...middleware(), battleMiddleware],
+  middleware: (middleware) => [...middleware()],
 });
 export default store;
 

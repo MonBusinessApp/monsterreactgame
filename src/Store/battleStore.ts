@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Battle, BattlePos } from '../Models/battle';
+import { Battle, BattleActionExecutedEvent, BattleEvent, BattlePos } from '../Models/battle';
 import { battleEndedCreator, nextRoundCreator, nextTurnCreator, startBattleCreator } from './battleActions';
 import { RootState } from './store';
 
@@ -30,9 +30,17 @@ const battleSlice = createSlice({
     add: battleAdapter.upsertOne,
     remove: battleAdapter.removeOne,
     update: battleAdapter.upsertOne,
+    actionExecuted(state, event: PayloadAction<{ battleId: number; action: BattleActionExecutedEvent }>) {
+      const battle = state.entities[event.payload.battleId];
+      if (battle == undefined) {
+        throw `battle ${event.payload.battleId} is undefined!`;
+      }
+      battle.activeBattle = event.payload.action.activeBattle;
+      return state;
+    },
   },
 });
 
 export const battleSelectors = battleAdapter.getSelectors<RootState>((state) => state.battle);
-export const { add: battleAdded, update: battleUpdated, remove: removedBattle } = battleSlice.actions;
+export const { add: battleAdded, update: battleUpdated, remove: removedBattle, actionExecuted } = battleSlice.actions;
 export default battleSlice.reducer;

@@ -46,8 +46,6 @@ export interface NextRound {
 }
 
 export type AttackEvent = PayloadAction<Attack>;
-export type BattleStartedEvent = PayloadAction<{ b: Battle }>;
-export type BattleEndedEvent = PayloadAction<BattleEnded>;
 export type NextTurnEvent = PayloadAction<NextTurn>;
 export type NextRoundEvent = PayloadAction<NextRound>;
 
@@ -67,4 +65,32 @@ export function isBattlePosEqual(b1: BattlePos | undefined, b2: BattlePos | unde
 
 export function createBattlePos({ teamId = -1, pos = [-1, -1] }: Partial<BattlePos>): BattlePos {
   return { teamId, pos };
+}
+
+export interface BattleAddedEvent {
+  battle: BattleApi;
+}
+
+export interface BattleEndedEvent {
+  winnerTeamId: number;
+  battle: BattleApi;
+}
+
+export interface BattleStartedEvent {
+  battle: BattleApi;
+}
+
+export interface BattleActionExecutedEvent {
+  source: number;
+  target: number;
+  activeBattle: ActiveBattle;
+}
+
+export interface BattleEvent {
+  battleId: number;
+  eventType: 'Ended' | 'Added' | 'ActionExecuted' | 'Started';
+  executed: BattleActionExecutedEvent;
+  started: BattleStartedEvent;
+  ended: BattleEndedEvent;
+  added: BattleAddedEvent;
 }

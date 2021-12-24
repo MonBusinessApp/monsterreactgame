@@ -68,4 +68,17 @@ export type TakeDamage = {
 
 export type TakeDamageEvent = PayloadAction<TakeDamage>;
 
-export type MonsterEvent = TakeDamageEvent;
+export interface MonsterUpdatedEvent {
+  monster: Monster;
+}
+
+export interface MonsterAddedEvent {
+  monster: Monster;
+}
+
+export interface MonsterEvent {
+  monsterId: number;
+  eventType: 'Updated' | 'Added';
+  updated: MonsterUpdatedEvent;
+  added: MonsterAddedEvent;
+}

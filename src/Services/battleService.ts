@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Attack, Battle, BattleApi } from '../Models/battle';
-import { battleAdded, battleUpdated } from '../Store/battleStore';
+import { Attack, Battle, BattleApi, BattleEvent } from '../Models/battle';
+import { actionExecuted, battleAdded, battleUpdated } from '../Store/battleStore';
 import store from '../Store/store';
 import { activeBattleSet, targetSet } from '../Store/UiStore/activeBattleStore';
 import { battleSelectors } from '../Store/battleStore';
@@ -11,20 +11,8 @@ export async function getBattlesByUser(id: number): Promise<Battle[]> {
   const response = await axios.get<BattleApi[]>(battleServiceUrl, { params: { userId: id } });
   console.log(response);
 
-  const battles = response.data.map((b) => {
-    return {
-      id: b.id,
-      activeBattle: b.activeBattle,
-      state: b.state,
-      teams: b.teams.map((t) => {
-        return {
-          id: t.id,
-          monsters: t.monsters.map((m) => m.id),
-          players: t.players,
-        };
-      }),
-    };
-  });
+  const battles = response.data.map(convertBattleApiToBattle);
+
   battles.forEach((m) => store.dispatch(battleAdded(m)));
   return battles;
 }
@@ -68,4 +56,32 @@ export function setActiveBattle(id: number): void {
 
 export function setTarget(id: number): void {
   store.dispatch(targetSet({ monId: id }));
+}
+
+export function receiveBattleEvent(event: BattleEvent) {
+  switch (event.eventType) {
+    case 'Added':
+      store.dispatch(battleAdded(convertBattleApiToBattle(event.added.battle)));
+    case 'Started':
+      store.dispatch(battleUpdated(convertBattleApiToBattle(event.started.battle)));
+    case 'Ended':
+      store.dispatch(battleUpdated(convertBattleApiToBattle(event.ended.battle)));
+    case 'ActionExecuted':
+      store.dispatch(actionExecuted({ battleId: event.battleId, action: event.executed }));
+  }
+}
+
+function convertBattleApiToBattle(b: BattleApi): Battle {
+  return {
+    id: b.id,
+    activeBattle: b.activeBattle,
+    state: b.state,
+    teams: b.teams.map((t) => {
+      return {
+        id: t.id,
+        monsters: t.monsters.map((m) => m.id),
+        players: t.players,
+      };
+    }),
+  };
 }
