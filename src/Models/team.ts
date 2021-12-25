@@ -1,6 +1,5 @@
 import { Monster } from './monster';
 
-
 export interface TeamApi {
   id: number;
   players: number[];
@@ -12,5 +11,3 @@ export interface Team {
   players: number[];
   monsters: number[];
 }
-
-

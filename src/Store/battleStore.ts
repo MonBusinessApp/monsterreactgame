@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Battle, BattleActionExecutedEvent, BattlePos } from '../Models/battle';
+import { Battle, BattleActionExecutedEvent } from '../Models/battle';
 import { RootState } from './store';
 
 export interface BattlePrototype {

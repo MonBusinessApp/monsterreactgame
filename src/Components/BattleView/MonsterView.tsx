@@ -4,7 +4,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
 import { LinearProgress, List, ListItem, ListItemIcon, ListItemText, Paper, SvgIcon, SxProps } from '@mui/material';
 import { Monster } from '../../Models/monster';
-import { green, grey, red, teal } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { mdiSkullCrossbones } from '@mdi/js';
 import { monsterSelectors } from '../../Store/monsterStore';
 import { battleSelectors } from '../../Store/battleStore';
