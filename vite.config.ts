@@ -5,3 +5,5 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
 });
+
+export const base = 'https://monbusinessapp.github.io/monsterreactgame';
