@@ -1,7 +1,7 @@
 {
   "name": "poko-frontend",
   "version": "0.0.0",
-  "homepage ":"https://monbusinessapp.github.io/"
+  "homepage ":"https://monbusinessapp.github.io/monsterreactgame/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
