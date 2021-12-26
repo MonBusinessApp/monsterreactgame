@@ -23,20 +23,22 @@
 
 ### todos
 
-[]split active battles and "quests"(contains 3 battles)
-[]rewards
-[-]notifications
-[]improve ui(more info for battles, better feedback when hit)
+- [] split active battles and "quests"(contains 3 battles)
+- [] rewards
+- [x] notifications
+- [] improve ui(more info for battles, better feedback when hit)
 
-##future todos
-[]find solution for ai mons; they should be garbage collected after fight?
-[]add skills
-[]add items
-[]login
+## future todos
 
-#done
-[x]monster overview for logged in player
-[x]add logged in player
-[x]improve ui (hide buttons when not needed)
-[x]real damage calculation
-[x]use router
+- []find solution for ai mons; they should be garbage collected after fight?
+- []add skills
+- []add items
+- []login
+
+## done
+
+- [x]monster overview for logged in player
+- [x]add logged in player
+- [x]improve ui (hide buttons when not needed)
+- [x]real damage calculation
+- [x]use router
