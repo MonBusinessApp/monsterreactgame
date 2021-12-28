@@ -1,8 +1,19 @@
+/** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import store, { RootState } from '../../Store/store';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
-import { LinearProgress, List, ListItem, ListItemIcon, ListItemText, Paper, SvgIcon, SxProps } from '@mui/material';
+import {
+  css,
+  LinearProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  SvgIcon,
+  SxProps,
+} from '@mui/material';
 import { Monster } from '../../Models/monster';
 import { green, grey, red } from '@mui/material/colors';
 import { mdiSkullCrossbones } from '@mdi/js';
@@ -85,6 +96,15 @@ function MonsterView({
     } else {
       icon = <FavoriteIcon />;
     }
+    const healthPercentage = (m.battleValues.remainingHp / m.battleValues.maxHp) * 100;
+    const healthColor = (function healthColor() {
+      console.log(healthPercentage);
+      if (healthPercentage < 30) {
+        return red[500];
+      }
+      return green[500];
+    })();
+
     return (
       <ListItem aria-label="healthpoints">
         <ListItemIcon>{icon}</ListItemIcon>
@@ -92,8 +112,13 @@ function MonsterView({
           <LinearProgress
             sx={{ height: 10, width: 100 }}
             variant="determinate"
-            color="secondary"
-            value={(m.battleValues.remainingHp / m.battleValues.maxHp) * 100}
+            value={healthPercentage}
+            css={css`
+              background-color: ${grey[400]};
+              span {
+                background-color: ${healthColor};
+              }
+            `}
           />
         </ListItemText>
       </ListItem>

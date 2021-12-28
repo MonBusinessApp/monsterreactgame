@@ -50,11 +50,15 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
 
   let backgroundColor: string = grey[saturation];
 
-  //todo make a hook out of them
   let isAlive = true;
   if (monsterState.battleValues.remainingHp <= 0) {
     isAlive = false;
-    backgroundColor = grey[400];
+  }
+
+  function determineBackgroundColor() {
+    if (!isAlive) {
+      backgroundColor = grey[400];
+    }
   }
 
   function getStyles(): { classNames: string[] } {

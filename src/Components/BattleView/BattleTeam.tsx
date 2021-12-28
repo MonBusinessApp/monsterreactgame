@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Grid, Paper } from '@mui/material';
 import MonsterView from './MonsterView';
 import { battleSelectors } from '../../Store/battleStore';
-import { blue, red } from '@mui/material/colors';
+import { red, blue } from '@mui/material/colors';
 function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }): React.ReactElement {
   const battle = useSelector((state: RootState) => battleSelectors.selectById(state, battleId));
 
@@ -18,14 +18,16 @@ function BattleTeam({ teamId, battleId }: { teamId: number; battleId: number }):
     );
   }
 
-  const list = myMonsters.map((m) => <MonsterView monId={m} teamId={teamId} battleId={battleId} key={m}></MonsterView>);
+  const list = myMonsters.map((m) => (
+    <Grid item key={m}>
+      <MonsterView monId={m} teamId={teamId} battleId={battleId} key={m}></MonsterView>
+    </Grid>
+  ));
 
   return (
-    <Paper sx={{ backgroundColor: blue[100] }}>
+    <Paper sx={{ backgroundColor: blue[50] }}>
       <h2>Team {teamId}</h2>
-      <Grid container spacing={4}>
-        {list}
-      </Grid>
+      <Grid container>{list}</Grid>
     </Paper>
   );
 }

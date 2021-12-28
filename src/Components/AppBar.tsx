@@ -24,12 +24,15 @@ export default function ButtonAppBar(): React.ReactElement {
   const classes = useStyles();
   const location = useLocation();
 
-  console.log(location.pathname);
+  let route = location.pathname;
+  if (location.pathname.startsWith('/battle')) {
+    route = '/battle';
+  }
   return (
     <div className={classes.root}>
       <AppBar position="static" color="primary">
         <Tabs
-          value={location.pathname}
+          value={route}
           variant="standard"
           aria-label="nav tabs example"
           indicatorColor="secondary"
