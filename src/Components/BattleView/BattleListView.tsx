@@ -6,6 +6,7 @@ import makeStyles from '@mui/styles/makeStyles';
 import { battleSelectors } from '../../Store/battleStore';
 import { getBattlesByUser, startBattle } from '../../Services/battleService';
 import { Battle } from '../../Models/battle';
+import { Link } from 'react-router-dom';
 
 function QuestListView(): React.ReactElement {
   const battles = useSelector((state: RootState) => battleSelectors.selectAll(state));
@@ -57,7 +58,11 @@ function QuestListView(): React.ReactElement {
 
   function renderGotoButton(battle: Battle) {
     if (battle.status == 'active') {
-      return <Button href={`/battle/${battle.id}`}>Goto</Button>;
+      return (
+        <Button to={`/battle/${battle.id}`} component={Link}>
+          Goto
+        </Button>
+      );
     }
     return <div></div>;
   }

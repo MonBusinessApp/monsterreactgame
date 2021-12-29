@@ -1,7 +1,7 @@
 import React from 'react';
 import makeStyles from '@mui/styles/makeStyles';
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Theme } from '@mui/material/styles';
 import { createStyles } from '@mui/styles';
 import { AppBar, Tab, Tabs } from '@mui/material';
@@ -38,8 +38,8 @@ export default function ButtonAppBar(): React.ReactElement {
           indicatorColor="secondary"
           textColor="secondary"
         >
-          <Tab value="/monster" label="Monsters" href="/monster"></Tab>
-          <Tab value="/battle" label="Battles" href="/battle"></Tab>
+          <Tab value="/monster" label="Monsters" to="/monster" component={Link}></Tab>
+          <Tab value="/battle" label="Battles" to="/battle" component={Link}></Tab>
           <Tab component="a" value={2} label="Messages"></Tab>
         </Tabs>
       </AppBar>
