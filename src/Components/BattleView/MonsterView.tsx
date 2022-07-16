@@ -37,7 +37,7 @@ function MonsterView({
     monsterSelectors.selectById(state, monId),
   );
 
-  const selectedSource = useSelector(
+  const nextTurnSource = useSelector(
     (state: RootState) => battleSelectors.selectById(state, battleId)?.activeBattle.turnQueue[0],
   );
 
@@ -49,7 +49,22 @@ function MonsterView({
   const [isMouseOver, handleMouseOver] = useState(false);
 
   const isSelected = activeBattleUI.selectedTarget == monId;
+  const isNextTurnSource = nextTurnSource == monId;
 
+  type MonStatus = 'Dead' | 'Turn' | 'Standard' | 'PossibleTarget';
+
+  function CalcMonStatus(monster: Monster, isNextTurnSource: boolean, possibleTarget: boolean): MonStatus {
+    if (monster.battleValues.remainingHp <= 0) {
+      return 'Dead';
+    }
+    if (isNextTurnSource) {
+      return 'Turn';
+    }
+    if (possibleTarget) {
+      return 'PossibleTarget';
+    }
+    return 'Standard';
+  }
   useEffect(() => {
     const fetchMonster = async () => {
       return await getMonsterById(monId);
@@ -57,8 +72,12 @@ function MonsterView({
 
     fetchMonster();
   }, []);
+  if (monsterState == undefined) {
+    return <div>Loading</div>;
+  }
 
-  //todo refactoring
+  const monStatus = CalcMonStatus(monsterState, isNextTurnSource, possibleTarget);
+
   let backgroundColor: string;
 
   function handleClick() {
@@ -71,23 +90,32 @@ function MonsterView({
     backgroundColor = grey[saturation];
   }
 
+  switch (monStatus) {
+    case 'Dead': {
+      backgroundColor = grey[400];
+      break;
+    }
+    case 'Turn': {
+      backgroundColor = green[saturation];
+      break;
+    }
+    case 'PossibleTarget': {
+      backgroundColor = red[saturation];
+      break;
+    }
+    case 'Standard': {
+      backgroundColor = grey[saturation];
+      break;
+    }
+  }
+
   if (possibleTarget) {
     backgroundColor = red[saturation];
   }
 
-  if (selectedSource == monId) {
-    backgroundColor = green[saturation];
-  }
-
-  let isAlive = true;
-  if (monsterState != undefined && monsterState.battleValues.remainingHp <= 0) {
-    isAlive = false;
-    backgroundColor = grey[400];
-  }
-
-  function renderHealth(m: Monster, isAlive: boolean) {
+  function renderHealth(m: Monster, monStatus: MonStatus) {
     let icon: React.ReactElement;
-    if (isAlive == false) {
+    if (monStatus == 'Dead') {
       icon = (
         <SvgIcon>
           <path d={mdiSkullCrossbones}></path>
@@ -126,7 +154,7 @@ function MonsterView({
   }
 
   let viewProps = {};
-  if (isAlive) {
+  if (monStatus != 'Dead') {
     viewProps = {
       onClick: handleClick,
       onMouseOver: () => handleMouseOver(true),
@@ -142,7 +170,7 @@ function MonsterView({
             <ListItemIcon>Name</ListItemIcon>
             <ListItemText>{monsterState.name}</ListItemText>
           </ListItem>
-          {renderHealth(monsterState, isAlive)}
+          {renderHealth(monsterState, monStatus)}
         </List>
       );
     };

@@ -13,16 +13,17 @@ import {
   SvgIcon,
   Typography,
 } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import { grey, teal } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 
 import { mdiShield, mdiSkullCrossbones } from '@mdi/js';
 import { RootState } from '../Store/store';
 import { monsterSelectors } from '../Store/monsterStore';
 import { Monster } from '../Models/monster';
 import { mdiSwordCross } from '@mdi/js';
+
+type MonStatus = 'Dead' | 'Selected' | 'SelectedAndTurn' | 'Turn' | 'Standard';
 
 function LinearProgressWithLabel(props: LinearProgressProps & { currentval: number; maxval: number }) {
   return (
@@ -37,6 +38,14 @@ function LinearProgressWithLabel(props: LinearProgressProps & { currentval: numb
   );
 }
 
+function CalcMonStatus(monster: Monster): MonStatus {
+  if (monster.battleValues.remainingHp <= 0) {
+    return 'Dead';
+  } else {
+    return 'Standard';
+  }
+}
+
 function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
   const monsterState: Monster | undefined = useSelector((state: RootState) =>
     monsterSelectors.selectById(state, monId),
@@ -45,47 +54,11 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
   if (monsterState == undefined) {
     return <div></div>;
   }
+  const monStatus = CalcMonStatus(monsterState);
 
-  const saturation: '100' | '300' = '100';
-
-  let backgroundColor: string = grey[saturation];
-
-  let isAlive = true;
-  if (monsterState.battleValues.remainingHp <= 0) {
-    isAlive = false;
-  }
-
-  function determineBackgroundColor() {
-    if (!isAlive) {
-      backgroundColor = grey[400];
-    }
-  }
-
-  function getStyles(): { classNames: string[] } {
-    const classNames = [classes.monsterRoot];
-    return { classNames };
-  }
-
-  const useStyles = makeStyles((theme) => ({
-    monsterRoot: {
-      backgroundColor,
-      padding: theme.spacing(1),
-    },
-    progressRoot: {
-      height: 10,
-    },
-    paperOutline: {
-      borderWidth: 3,
-      borderColor: teal[300],
-    },
-  }));
-  const classes = useStyles();
-
-  const styles = getStyles();
-
-  function renderHealth(m: Monster, isAlive: boolean) {
+  function renderHealth(m: Monster, monState: MonStatus) {
     let icon: React.ReactElement;
-    if (isAlive == false) {
+    if (monState == 'Dead') {
       icon = (
         <SvgIcon>
           <path d={mdiSkullCrossbones}></path>
@@ -99,7 +72,7 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText>
           <LinearProgressWithLabel
-            className={classes.progressRoot}
+            sx={{ height: 10 }}
             variant="determinate"
             color="secondary"
             currentval={m.battleValues.remainingHp}
@@ -111,13 +84,13 @@ function MonsterDetailsView({ monId }: { monId: number }): React.ReactElement {
   }
 
   const monsterView = (
-    <Paper className={styles.classNames.reduce((allClasses, currClass) => `${allClasses} ${currClass}`)}>
+    <Paper sx={{ backgroundColor: grey[100] }}>
       <List dense={true}>
         <ListItem>
           <ListItemIcon>Name</ListItemIcon>
           <ListItemText>{monsterState.name}</ListItemText>
         </ListItem>
-        {renderHealth(monsterState, isAlive)}
+        {renderHealth(monsterState, monStatus)}
         <ListItem>
           <ListItemIcon>
             <SvgIcon>

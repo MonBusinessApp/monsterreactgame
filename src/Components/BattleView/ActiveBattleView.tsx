@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
 import { Fab, Grid, SvgIcon } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import BattleTeam from './BattleTeam';
 import { mdiSwordCross } from '@mdi/js';
 import { battleSelectors } from '../../Store/battleStore';
@@ -34,17 +33,7 @@ function ActiveBattleView(): React.ReactElement {
     setActiveBattle(battleId);
   }, []);
 
-  const useStyles = makeStyles((theme) => ({
-    fab: {
-      position: 'fixed',
-      bottom: theme.spacing(2),
-      right: 'auto',
-    },
-  }));
-
   const navigate = useNavigate();
-
-  const classes = useStyles();
 
   if (battle == undefined || battle.activeBattle == undefined) {
     return <div>Battle not active</div>;
@@ -63,7 +52,7 @@ function ActiveBattleView(): React.ReactElement {
       <Fab
         color="secondary"
         onClick={() => handleClickAttack(battleId, selectedSource, activeBattleUi.selectedTarget)}
-        className={classes.fab}
+        sx={{ position: 'fixed', bottom: '1rem', right: 'auto' }}
         aria-label="attack"
       >
         <SvgIcon>

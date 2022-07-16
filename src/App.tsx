@@ -13,7 +13,7 @@ import { ThemeProvider, Theme, StyledEngineProvider, createTheme } from '@mui/ma
 
 import MonsterListView from './Components/MonsterListView';
 import ActiveBattleView from './Components/BattleView/ActiveBattleView';
-import { amber } from '@mui/material/colors';
+import { teal } from '@mui/material/colors';
 import { wsConnect } from './Services/eventService';
 
 declare module '@mui/styles/defaultTheme' {
@@ -26,7 +26,7 @@ function App(): React.ReactElement {
     store.dispatch(createAddNotification('hallo bob'));
   }
 
-  const theme = createTheme({ palette: { secondary: { main: amber[200] } } });
+  const theme = createTheme({ palette: { secondary: { main: teal[100] } } });
 
   useEffect(() => {
     wsConnect();
@@ -46,6 +46,7 @@ function App(): React.ReactElement {
             <BrowserRouter>
               <AppBar></AppBar>
               <Routes>
+                <Route path="/" element={<MonsterListView userId={1} />} />
                 <Route path="/battle" element={<BattleView />} />
                 <Route path="/battle/:id" element={<ActiveBattleView />} />
                 <Route path="/monster" element={<MonsterListView userId={1} />} />

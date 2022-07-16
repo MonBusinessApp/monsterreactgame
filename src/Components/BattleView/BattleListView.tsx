@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { RootState } from '../../Store/store';
 import { useSelector } from 'react-redux';
 import { Accordion, AccordionDetails, AccordionSummary, Button, Fab } from '@mui/material';
-import makeStyles from '@mui/styles/makeStyles';
 import { battleSelectors } from '../../Store/battleStore';
 import { getBattlesByUser, startBattle } from '../../Services/battleService';
 import { Battle } from '../../Models/battle';
@@ -20,14 +19,6 @@ function QuestListView(): React.ReactElement {
     startBattle(selectedBattle);
   }
 
-  const useStyles = makeStyles((theme) => ({
-    fab: {
-      position: 'fixed',
-      bottom: theme.spacing(2),
-      right: 'auto',
-    },
-  }));
-
   useEffect(() => {
     const fetchBattles = async () => {
       return await getBattlesByUser(1);
@@ -35,8 +26,6 @@ function QuestListView(): React.ReactElement {
 
     fetchBattles();
   }, []);
-
-  const classes = useStyles();
 
   function renderStartButton() {
     if (selectedBattle == undefined) {
@@ -47,7 +36,7 @@ function QuestListView(): React.ReactElement {
       <Fab
         color="primary"
         onClick={handleClickstartBattle}
-        className={classes.fab}
+        sx={{ position: 'fixed', bottom: '1rem', right: 'auto' }}
         aria-label="start"
         variant="extended"
       >

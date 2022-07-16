@@ -1,27 +1,9 @@
 import React from 'react';
-import makeStyles from '@mui/styles/makeStyles';
 
 import { Link, useLocation } from 'react-router-dom';
-import { Theme } from '@mui/material/styles';
-import { createStyles } from '@mui/styles';
 import { AppBar, Tab, Tabs } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      flexGrow: 1,
-    },
-  }),
-);
-
 export default function ButtonAppBar(): React.ReactElement {
-  const classes = useStyles();
   const location = useLocation();
 
   let route = location.pathname;
@@ -29,7 +11,7 @@ export default function ButtonAppBar(): React.ReactElement {
     route = '/battle';
   }
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar position="static" color="primary">
         <Tabs
           value={route}
