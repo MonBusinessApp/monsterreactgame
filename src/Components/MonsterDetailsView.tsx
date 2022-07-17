@@ -23,7 +23,7 @@ import { monsterSelectors } from '../Store/monsterStore';
 import { Monster } from '../Models/monster';
 import { mdiSwordCross } from '@mdi/js';
 
-type MonStatus = 'Dead' | 'Selected' | 'SelectedAndTurn' | 'Turn' | 'Standard';
+type MonStatus = 'Dead' | 'Standard';
 
 function LinearProgressWithLabel(props: LinearProgressProps & { currentval: number; maxval: number }) {
   return (
